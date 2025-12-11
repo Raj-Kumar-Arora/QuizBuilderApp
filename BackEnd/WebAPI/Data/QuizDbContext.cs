@@ -8,7 +8,7 @@ namespace WebAPI.Data
     {
         public QuizDbContext(DbContextOptions<QuizDbContext> options) : base(options) { }
 
-        //public DbSet<Quiz> Quizzes => Set<Quiz>();
+        public DbSet<User> Users { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
     }
 }

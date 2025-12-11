@@ -2,11 +2,10 @@
 {
     public class User
     {
-        public required int Id { get; set; }
-        public required string Name { get; set; } = string.Empty;
-        
-        //ToDo: Hash password + Add Salt before storing it to DB
-        public required string Password { get; set; } = string.Empty;
+        public int Id { get; set; }
+        public required string Username { get; set; }
+        public required byte[] PasswordHash { get; set; }
+        public required byte[] PasswordSalt { get; set; }
         public required string Email { get; set; } = string.Empty;
     }
 }
