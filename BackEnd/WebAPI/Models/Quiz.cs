@@ -2,21 +2,25 @@
 {
     public class Quiz
     {
-        public Quiz(int id, string title, int authorId)
+        public Quiz()
         {
-            Id = id;
+        }   
+        public Quiz(string title, int authorId)
+        {
             Title = title;
             AuthorId = authorId;
             IsPublished = false;
         }
 
         #region Properties Region
-        public int Id { get; init; }
 
+        public int Id { get; init; }
         public required string Title { get; set; } = string.Empty;
         public required int AuthorId { get; init; }
         public bool IsPublished { get; set; } = false;
         public IReadOnlyCollection<Question> Questions => _questions.AsReadOnly();
+
+        //ToDo : Add CreatedAt, UpdatedAt ?
 
         #endregion Properties Region
 

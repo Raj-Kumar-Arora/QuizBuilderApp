@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using WebAPI.Data;
+using WebAPI.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +12,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure Database Connection
 var quizDbConnectionString = builder.Configuration.GetConnectionString("QuizDBConnectionString");
 builder.Services.AddDbContext<QuizDbContext>(options =>
     options.UseSqlServer(quizDbConnectionString));
+
+// Configure AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 

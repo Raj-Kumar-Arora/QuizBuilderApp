@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Data;
+using WebAPI.DTOs.Quiz;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -9,26 +11,44 @@ namespace WebAPI.Controllers
     public class QuizController : ControllerBase
     {
         private readonly QuizDbContext _quizDbContext;
+        private readonly IMapper _mapper;
 
-        public QuizController(QuizDbContext quizDbContext)
+        public QuizController(QuizDbContext quizDbContext, IMapper mapper)
         {
             _quizDbContext = quizDbContext;
+            _mapper = mapper;
         }
 
         // CREETE - POST: api/Quiz
         [HttpPost]
-        public IActionResult CreateQuiz([FromBody] WebAPI.Models.Quiz quiz)
+        public IActionResult CreateQuiz([FromBody] QuizCreateRequest quizRequest)
         {
-            if (quiz == null)
+            if (quizRequest == null)
             {
                 return BadRequest("Quiz cannot be null.");
             }
             try
             {
+                var quiz = new Quiz
+                {
+                    Title = quizRequest.Title,
+                    AuthorId = quizRequest.AuthorId
+                };
+
+                // MAP CHILD QUESTIONS
+                foreach (var q in quizRequest.Questions)
+                {
+                    var question = _mapper.Map<Question>(q);
+                    quiz.AddQuestion(question);
+                }
+
                 quiz.Validate();
                 _quizDbContext.Quizzes.Add(quiz);
                 _quizDbContext.SaveChanges();
-                return CreatedAtAction(nameof(GetAllQuizzes), new { id = quiz.Id }, quiz);
+
+                var response = _mapper.Map<QuizCreateResponse>(quiz);
+                //ToDo : CreatedAtAction ??
+                return CreatedAtAction(nameof(GetQuizById), new { id = quiz.Id }, response);
             }
             catch (InvalidOperationException ex)
             {
@@ -59,7 +79,7 @@ namespace WebAPI.Controllers
         // UPDATE - PUT: api/Quiz/{id}
         [HttpPut]
         [Route("{id}")]
-        public IActionResult UpdateQuiz(int id, [FromBody] WebAPI.Models.Quiz updatedQuiz)
+        public IActionResult UpdateQuiz(int id, [FromBody] Quiz updatedQuiz)
         {
             var existingQuiz = _quizDbContext.Quizzes.Find(id);
             if (existingQuiz == null)
