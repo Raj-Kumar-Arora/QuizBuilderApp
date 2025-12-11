@@ -7,6 +7,7 @@
             Id = id;
             Title = title;
             AuthorId = authorId;
+            IsPublished = false;
         }
 
         #region Properties Region
@@ -14,6 +15,7 @@
 
         public required string Title { get; set; } = string.Empty;
         public required int AuthorId { get; init; }
+        public bool IsPublished { get; set; } = false;
         public IReadOnlyCollection<Question> Questions => _questions.AsReadOnly();
 
         #endregion Properties Region
