@@ -18,7 +18,10 @@ export class QuizService {
   }
 
   create(quiz: any): Observable<Quiz> {
-    return this.http.post<Quiz>(this.apiUrl, quiz);
+    // ensure we don't send id (backend will generate it)
+    const payload = { ...quiz } as any;
+    delete payload.id;
+    return this.http.post<Quiz>(this.apiUrl, payload);
   }
 
   update(id: number, quiz: any): Observable<Quiz> {

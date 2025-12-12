@@ -1,52 +1,53 @@
-//import { Component } from '@angular/core';
-//import { FormArray, FormBuilder, Validators } from '@angular/forms';
-//import { QuizService } from '../../../services/quiz.service';
+import { Component } from '@angular/core';
+import { FormBuilder, FormArray, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
-//@Component({
-//  selector: 'app-quiz-create',
-//  templateUrl: './create.html',
-//})
-//export class QuizCreateComponent {
+import { QuizService } from '../../../services/quiz.service';
+import { QuestionType } from '../../../models/question.model';
 
-//  constructor(private fb: FormBuilder, private quizService: QuizService) { }
+@Component({
+  selector: 'app-quiz-create',
+  standalone: true,
+  templateUrl: './create.html',
+  styleUrls: ['./create.css'],
+  imports: [
+    CommonModule,          // <-- REQUIRED for *ngFor, *ngIf
+    ReactiveFormsModule    // <-- REQUIRED for formGroup, formControl, formArray
+  ]
+})
+export class CreateComponent {
+  QuestionType = QuestionType;
+  quizForm! : FormGroup
 
-//  quizForm = this.fb.group({
-//    title: ['', Validators.required],
-//    authorId: [1, Validators.required],
-//    questions: this.fb.array([])
-//  });
+  constructor(private fb: FormBuilder, private quizService: QuizService, private router: Router)
+  {
+      this.quizForm = this.fb.group({
+        title: ['', Validators.required],
+        authorId: [0, Validators.required],
+        isPublished: [false],
+        questions: this.fb.array([])
+      });
+  }
 
-//  get questions() {
-//    return this.quizForm.get('questions') as FormArray;
-//  }
+  get questions() {
+    return this.quizForm.get('questions') as FormArray;
+  }
 
-//  addQuestion() {
-//    const question = this.fb.group({
-//      text: ['', Validators.required],
-//      type: [0, Validators.required],
-//      answers: this.fb.array([])
-//    });
-//    this.questions.push(question);
-//  }
+  addQuestion() {
+    this.questions.push(
+      this.fb.group({
+        text: ['', Validators.required],
+        type: [QuestionType.SingleChoice, Validators.required],
+        answers: this.fb.array([])
+      })
+    );
+  }
 
-//  getAnswers(questionIndex: number): FormArray {
-//    return this.questions.at(questionIndex).get('answers') as FormArray;
-//  }
-
-//  addAnswer(questionIndex: number) {
-//    const answer = this.fb.group({
-//      text: ['', Validators.required],
-//      isCorrect: [false]
-//    });
-//    this.getAnswers(questionIndex).push(answer);
-//  }
-
-//  submit() {
-//    if (this.quizForm.invalid) return;
-
-//    this.quizService.create(this.quizForm.value).subscribe({
-//      next: () => alert('Quiz created successfully')
-//    });
-//  }
-//}
-
+  submit() {
+    if (this.quizForm.invalid) return;
+    this.quizService.create(this.quizForm.value).subscribe(() => {
+      this.router.navigate(['/quiz']);
+    });
+  }
+}

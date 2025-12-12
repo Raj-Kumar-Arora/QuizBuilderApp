@@ -1,1 +1,51 @@
-<p>edit works!</p>
+<!-- <h2>Create Quiz</h2>
+
+<form [formGroup]="quizForm" (ngSubmit)="submit()">
+  <label>Title</label>
+  <input formControlName="title" />
+
+  <label>AuthorId</label>
+  <input type="number" formControlName="authorId" />
+
+  <label>
+    <input type="checkbox" formControlName="isPublished" /> Published
+  </label>
+
+  <section>
+    <h3>Questions</h3>
+    <button type="button" (click)="addQuestion()">Edit question</button>
+
+    <div formArrayName="questions" *ngFor="let qCtrl of questions.controls; let i = index">
+      <div [formGroupName]="i" style="border:1px solid #ddd; padding:8px; margin:8px 0;">
+        <label>Question text</label>
+        <input formControlName="text" />
+
+        <label>Type</label>
+        <select formControlName="type">
+          <option [value]="QuestionType.None">None</option>
+          <option [value]="QuestionType.SingleChoice">Single Choice</option>
+          <option [value]="QuestionType.MultipleChoice">Multiple Choice</option>
+          <option [value]="QuestionType.Other">Other</option>
+        </select>
+
+        <div>
+          <h4>Answers</h4>
+          <button type="button" (click)="addAnswer(i)">Add answer</button>
+
+          <div formArrayName="answers" *ngFor="let aCtrl of getAnswers(i).controls; let j = index">
+            <div [formGroupName]="j">
+              <input formControlName="text" placeholder="Answer text" />
+              <label><input type="checkbox" formControlName="isCorrect" /> Correct</label>
+              <button type="button" (click)="removeAnswer(i, j)">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" (click)="removeQuestion(i)">Remove question</button>
+      </div>
+    </div>
+  </section>
+
+  <button type="submit">Update</button>
+  <button routerLink="/quiz" type="button">Cancel</button>
+</form> -->

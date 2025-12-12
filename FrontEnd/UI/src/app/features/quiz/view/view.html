@@ -1,0 +1,17 @@
+<h2>{{quiz?.title}}</h2>
+<p>AuthorId: {{quiz?.authorId}}</p>
+<p>Published: {{quiz?.isPublished}}</p>
+
+<h3>Questions</h3>
+<ul>
+  <li *ngFor="let q of quiz?.questions">
+    <strong>{{q.text}}</strong> (type: {{q.type}})
+    <ul>
+      <li *ngFor="let a of q.answers">
+        {{a.text}} <span *ngIf="a.isCorrect">✓</span>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<button routerLink="/quiz">Back</button>
