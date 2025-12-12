@@ -23,6 +23,7 @@ export class ListComponent implements OnInit {
 
   load() {
     this.loading = true;
+    console.log('1 - Quiz list loading...');
     this.svc.getAll().subscribe({
       next: (data) => { this.quizzes = data; this.loading = false; },
       error: (err) => { this.error = err?.message ?? 'Load failed'; this.loading = false; }

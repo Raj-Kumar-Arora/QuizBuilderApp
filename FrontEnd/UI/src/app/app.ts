@@ -3,10 +3,12 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,           // <-- REQUIRED for standalone apps
+  imports: [RouterOutlet],    // <-- RouterOutlet must be imported here
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']    // <-- use plural (recommended)
 })
-export class App {
-  protected readonly title = signal('UI');
+export class AppComponent{
+  title = signal('UI');       // signal works correctly now
 }
+

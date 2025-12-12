@@ -8,7 +8,7 @@ export enum QuestionType {
 }
 
 export interface Question {
-  id: number;
+  id?: number;
   text: string;
   type: QuestionType;
   quizId: number;

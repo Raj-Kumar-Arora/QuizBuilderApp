@@ -5,11 +5,12 @@ import { Quiz } from '../models/quiz.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
-  private apiUrl = 'https://localhost:7075/api/quiz';
+  private apiUrl = 'https://localhost:7175/api/quiz';
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Quiz[]> {
+    console.log('2 - from Quiz Service - getAll called');
     return this.http.get<Quiz[]>(this.apiUrl);
   }
 
@@ -20,6 +21,8 @@ export class QuizService {
   create(quiz: any): Observable<Quiz> {
     // ensure we don't send id (backend will generate it)
     const payload = { ...quiz } as any;
+
+    //ToDo : delete ??
     delete payload.id;
     return this.http.post<Quiz>(this.apiUrl, payload);
   }

@@ -1,3 +1,15 @@
 import { Routes } from '@angular/router';
+import { ListComponent } from './features/quiz/list/list';
+import { CreateComponent } from './features/quiz/create/create';
+import { EditComponent } from './features/quiz/edit/edit';
+import { ViewComponent } from './features/quiz/view/view';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  { path: '', redirectTo: 'quiz', pathMatch: 'full' },
+  { path: 'quiz', component: ListComponent },
+  { path: 'quiz/create', component: CreateComponent },
+  { path: 'quiz/edit/:id', component: EditComponent },
+  { path: 'quiz/view/:id', component: ViewComponent },
+  // add auth routes etc
+];
+
