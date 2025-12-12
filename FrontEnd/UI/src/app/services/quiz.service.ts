@@ -10,7 +10,6 @@ export class QuizService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Quiz[]> {
-    console.log('2 - from Quiz Service - getAll called');
     return this.http.get<Quiz[]>(this.apiUrl);
   }
 

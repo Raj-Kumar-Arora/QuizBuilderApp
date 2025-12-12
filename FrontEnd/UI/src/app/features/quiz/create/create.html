@@ -15,7 +15,7 @@
     <h3>Questions</h3>
     <button type="button" (click)="addQuestion()">Add question</button>
 
-    <!-- <div formArrayName="questions" *ngFor="let qCtrl of questions.controls; let i = index">
+    <div formArrayName="questions" *ngFor="let qCtrl of questions.controls; let i = index">
       <div [formGroupName]="i" style="border:1px solid #ddd; padding:8px; margin:8px 0;">
         <label>Question text</label>
         <input formControlName="text" />
@@ -43,7 +43,7 @@
 
         <button type="button" (click)="removeQuestion(i)">Remove question</button>
       </div>
-    </div> -->
+    </div>
   </section>
 
   <button type="submit">Save</button>
