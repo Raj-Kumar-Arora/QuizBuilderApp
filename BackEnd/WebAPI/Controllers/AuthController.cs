@@ -22,7 +22,8 @@ namespace WebAPI.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            if (_context.Users.Any(u => u.Username == request.Username))
+            if (_context.Users.Any(u => 
+                    (u.Username == request.Username) || (u.Email == request.Email)))
                 return BadRequest("Username already exists");
 
             _authService.CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
@@ -32,19 +33,19 @@ namespace WebAPI.Controllers
                 Username = request.Username,
                 PasswordHash = hash,
                 PasswordSalt = salt,
-                Email = string.Empty 
+                Email = request.Email 
             };
 
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return Ok("User registered");
+            return Ok(new { message = "User registered" });
         }
 
         [HttpPost("login")]
         public IActionResult Login(LoginRequest request)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Username == request.Username);
+            var user = _context.Users.SingleOrDefault(u => u.Email == request.Email);
 
             if (user == null)
                 return Unauthorized("Invalid username or password");
