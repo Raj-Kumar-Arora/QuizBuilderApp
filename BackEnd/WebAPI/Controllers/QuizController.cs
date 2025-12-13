@@ -136,6 +136,7 @@ namespace WebAPI.Controllers
                     QuizId = quiz.Id,
                     Title = quiz.Title,
                     AuthorId = quiz.AuthorId,
+                    IsPublished = quiz.IsPublished,
                     Permalink = quiz.Permalink!
                 });
             }
