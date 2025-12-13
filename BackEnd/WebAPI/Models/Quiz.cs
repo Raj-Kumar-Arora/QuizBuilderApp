@@ -52,6 +52,11 @@
             _questions.Remove(question);
         }
 
+        internal void ClearQuestions()
+        {
+            this.Questions.ToList().ForEach(q => RemoveQuestion(q));
+        }
+
         // Validate that the quiz meets all requirements
         // Will be called before saving the quiz to DB
         public void Validate()

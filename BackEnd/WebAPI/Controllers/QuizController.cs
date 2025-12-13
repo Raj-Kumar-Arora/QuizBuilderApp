@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.DTOs.Quiz;
+using WebAPI.Mappings;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -100,7 +102,7 @@ namespace WebAPI.Controllers
         // UPDATE - PUT: api/Quiz/{id}
         [HttpPut]
         [Route("{id}")]
-        public IActionResult UpdateQuiz(int id, [FromBody] Quiz updatedQuiz)
+        public IActionResult UpdateQuiz(int id, [FromBody] QuizUpdateRequest updatedQuiz)
         {
             var existingQuiz = _quizDbContext.Quizzes
                                 .Include(q => q.Questions)
@@ -111,9 +113,16 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
             existingQuiz.Title = updatedQuiz.Title;
-            // TODO : Space for Questions update logic for later
+
+            existingQuiz.ClearQuestions();
+            foreach (var q in updatedQuiz.Questions)
+            {
+                existingQuiz.AddQuestion(QuizMapper.MapQuestion(q));
+            }
+
+            existingQuiz.Validate();
             _quizDbContext.SaveChanges();
-            return NoContent();
+            return Ok(_mapper.Map<QuizUpdateResponse>(existingQuiz));
         }
 
         [HttpPut("{id}/publish")]

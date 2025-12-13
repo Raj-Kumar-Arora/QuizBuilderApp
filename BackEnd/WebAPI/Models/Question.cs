@@ -7,7 +7,7 @@ namespace WebAPI.Models
         public int Id { get; set; }
         public required string Text { get; set; } = string.Empty;
         public required QuestionType Type { get; set; }
-        public required int QuizId { get; set; }
+        public int QuizId { get; set; }
         public string QuizName { get; set; } = string.Empty;
 
         public required List<Answer> Answers { get; set; } = new();
