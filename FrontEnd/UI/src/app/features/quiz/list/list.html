@@ -28,6 +28,7 @@
       <button (click)="view(q.id!)">View</button>
 
       @if (!q.isPublished) {
+      <button (click)="edit(q.id)">Edit</button>
       <button (click)="publish(q.id!)">Publish</button>
       }
 
@@ -36,6 +37,8 @@
         Open Quiz
       </a>
       }
+
+      <button (click)="delete(q.id)">Delete</button>
     </td>
   </tr>
   }
