@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.DTOs.Quiz;
 using WebAPI.Models;
@@ -68,7 +69,10 @@ namespace WebAPI.Controllers
         [Route("{id}")]
         public IActionResult GetQuizById(int id)
         {
-            var quiz = _quizDbContext.Quizzes.Find(id);
+            var quiz = _quizDbContext.Quizzes
+                        .Include(q => q.Questions)
+                        .ThenInclude(q => q.Answers)
+                        .FirstOrDefault(q => q.Id == id);
             if (quiz == null)
             {
                 return NotFound();
@@ -81,7 +85,10 @@ namespace WebAPI.Controllers
         [Route("{id}")]
         public IActionResult UpdateQuiz(int id, [FromBody] Quiz updatedQuiz)
         {
-            var existingQuiz = _quizDbContext.Quizzes.Find(id);
+            var existingQuiz = _quizDbContext.Quizzes
+                                .Include(q => q.Questions)
+                                .ThenInclude(q => q.Answers)
+                                .FirstOrDefault(q => q.Id == id);
             if (existingQuiz == null)
             {
                 return NotFound();
