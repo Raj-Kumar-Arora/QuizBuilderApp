@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Quiz } from '../models/quiz.model';
+import { PublishResponse } from '../models/publish-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
@@ -26,11 +27,15 @@ export class QuizService {
     return this.http.post<Quiz>(this.apiUrl, payload);
   }
 
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
   update(id: number, quiz: any): Observable<Quiz> {
     return this.http.put<Quiz>(`${this.apiUrl}/${id}`, quiz);
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  publish(id: number) {
+    return this.http.put<PublishResponse>(`${this.apiUrl}/${id}/publish`, {});
   }
 }

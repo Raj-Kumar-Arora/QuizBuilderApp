@@ -4,5 +4,6 @@ export interface Quiz {
   title: string;
   authorId: number;
   isPublished: boolean;
+  permalink?: string;
   questions: Question[];
 }

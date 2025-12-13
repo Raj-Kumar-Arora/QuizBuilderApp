@@ -41,4 +41,14 @@ export class ListComponent implements OnInit {
       error: (err) => alert('Delete failed: ' + (err?.message ?? err))
     });
   }
+
+  publish(id: number) {
+    this.quizService.publish(id).subscribe({
+      next: res => {
+        alert(`Quiz published!\nLink: /take/${res.permalink}`);
+        this.load();
+      },
+      error: err => alert(err.error)
+    });
+  }
 }
