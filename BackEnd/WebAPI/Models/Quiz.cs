@@ -17,14 +17,14 @@
         public int Id { get; init; }
         public required string Title { get; set; } = string.Empty;
         public required int AuthorId { get; init; }
-        public bool IsPublished { get; set; } = false;
+        public bool IsPublished { get; private set; } = false;
+        public string? Permalink { get; private set; }
+
         public IReadOnlyCollection<Question> Questions => _questions.AsReadOnly();
 
         //ToDo : Add CreatedAt, UpdatedAt ?
 
         #endregion Properties Region
-
-
 
         #region Questions Region 
         private const int MinQuestions = 1;
@@ -62,6 +62,27 @@
 
         #endregion Questions Region 
 
+        #region Publish Region
 
+        public void Publish()
+        {
+            if (IsPublished)
+                return;
+
+            Validate(); // ensures min questions
+
+            Permalink = GeneratePermalink();
+            IsPublished = true;
+        }
+
+        private static string GeneratePermalink()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            return new string(Enumerable.Range(0, 6)
+                .Select(_ => chars[random.Next(chars.Length)])
+                .ToArray());
+        }
+        #endregion Publish Region
     }
 }

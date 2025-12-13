@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
@@ -64,6 +65,7 @@ namespace WebAPI.Controllers
             var quizzes = _quizDbContext.Quizzes.ToList();
             return Ok(quizzes);
         }
+
         // READ - GET: api/Quiz by id
         [HttpGet]
         [Route("{id}")]
@@ -80,6 +82,21 @@ namespace WebAPI.Controllers
             return Ok(quiz);
         }
 
+        // DELETE - DELETE: api/Quiz/{id}
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult DeleteQuiz(int id)
+        {
+            var quiz = _quizDbContext.Quizzes.Find(id);
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+            _quizDbContext.Quizzes.Remove(quiz);
+            _quizDbContext.SaveChanges();
+            return NoContent();
+        }
+        
         // UPDATE - PUT: api/Quiz/{id}
         [HttpPut]
         [Route("{id}")]
@@ -99,19 +116,49 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        // DELETE - DELETE: api/Quiz/{id}
-        [HttpDelete]
-        [Route("{id}")]
-        public IActionResult DeleteQuiz(int id)
+        [HttpPut("{id}/publish")]
+        public IActionResult PublishQuiz(int id)
         {
-            var quiz = _quizDbContext.Quizzes.Find(id);
+            var quiz = _quizDbContext.Quizzes
+                        .Include(q => q.Questions)
+                        .ThenInclude(q => q.Answers)
+                        .FirstOrDefault(q => q.Id == id);
+
             if (quiz == null)
-            {
                 return NotFound();
+
+            try
+            {
+                quiz.Publish();
+                _quizDbContext.SaveChanges();
+                return Ok(new QuizPublishResponse
+                {
+                    QuizId = quiz.Id,
+                    Title = quiz.Title,
+                    AuthorId = quiz.AuthorId,
+                    Permalink = quiz.Permalink!
+                });
             }
-            _quizDbContext.Quizzes.Remove(quiz);
-            _quizDbContext.SaveChanges();
-            return NoContent();
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
+        [HttpGet("public/{permalink}")]
+        [AllowAnonymous]
+        public IActionResult GetByPermalink(string permalink)
+        {
+            var quiz = _quizDbContext.Quizzes
+                        .Include(q => q.Questions)
+                        .ThenInclude(q => q.Answers)
+                        .FirstOrDefault(q => q.Permalink == permalink && q.IsPublished);
+
+            if (quiz == null)
+                return NotFound();
+
+            return Ok(quiz);
+        }
+
     }
 }

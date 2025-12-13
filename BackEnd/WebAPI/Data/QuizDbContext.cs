@@ -10,5 +10,16 @@ namespace WebAPI.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
+
+        // ToDo : Add OnModelCreating for indexes for Permalink uniqueness
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Quiz>()
+                .HasIndex(q => q.Permalink)
+                .IsUnique();
+        }
+
     }
 }
