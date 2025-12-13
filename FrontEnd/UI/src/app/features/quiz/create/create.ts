@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { QuizService } from '../../../services/quiz.service';
-import { QuestionType } from '../../../models/question.model';
+import { QuestionType } from '../../../models/quiz/question.model';
 
 @Component({
   selector: 'app-quiz-create',

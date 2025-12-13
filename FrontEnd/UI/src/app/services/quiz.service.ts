@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Quiz } from '../models/quiz.model';
-import { PublishResponse } from '../models/publish-response.model';
+import { Quiz } from '../models/quiz/quiz.model';
+import { PublishResponse } from '../models/quiz/publish-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
