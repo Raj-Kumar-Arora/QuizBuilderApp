@@ -1,0 +1,19 @@
+<h2>QUIZ TITLE : {{ quiz?.title }}</h2>
+
+@for (q of quiz?.questions ?? []; track q.id) {
+<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px">
+  <strong>QUESTON : {{ q.text }}</strong>
+
+  <ul>
+    @for (a of q.answers; track a.id) {
+    <li>
+      <label>
+        <input type="checkbox" />
+        {{ a.text }}
+      </label>
+    </li>
+    }
+  </ul>
+</div>
+}
+

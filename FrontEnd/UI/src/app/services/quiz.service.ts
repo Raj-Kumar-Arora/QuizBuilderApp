@@ -38,4 +38,7 @@ export class QuizService {
   publish(id: number) {
     return this.http.put<PublishResponse>(`${this.apiUrl}/${id}/publish`, {});
   }
+  getByPermalink(code: string): Observable<Quiz> {
+    return this.http.get<Quiz>(`${this.apiUrl}/public/${code}`);
+  }
 }
