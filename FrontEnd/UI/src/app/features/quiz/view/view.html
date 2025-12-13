@@ -4,14 +4,22 @@
 
 <h3>Questions</h3>
 <ul>
-  <li *ngFor="let q of quiz?.questions">
-    <strong>{{q.text}}</strong> (type: {{q.type}})
-    <ul>
-      <li *ngFor="let a of q.answers">
-        {{a.text}} <span *ngIf="a.isCorrect">✓</span>
-      </li>
-    </ul>
-  </li>
+  @for (q of quiz?.questions || []; track q) {
+    <li>
+      <strong>{{ q.text }}</strong> (type: {{ q.type }})
+
+      <ul>
+        @for (a of q.answers || []; track a) {
+          <li>
+            {{ a.text }}
+            @if (a.isCorrect) {
+              <span>✓</span>
+            }
+          </li>
+        }
+      </ul>
+    </li>
+  }
 </ul>
 
 <button routerLink="/quiz">Back</button>

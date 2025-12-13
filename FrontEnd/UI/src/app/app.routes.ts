@@ -6,10 +6,10 @@ import { ViewComponent } from './features/quiz/view/view';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'quiz', pathMatch: 'full' },
-  { path: 'quiz', component: ListComponent },
+  { path: 'quiz/list', component: ListComponent },
   { path: 'quiz/create', component: CreateComponent },
   { path: 'quiz/edit/:id', component: EditComponent },
   { path: 'quiz/view/:id', component: ViewComponent },
-  // add auth routes etc
+  { path: '**', redirectTo: 'quiz/list' },
 ];
 

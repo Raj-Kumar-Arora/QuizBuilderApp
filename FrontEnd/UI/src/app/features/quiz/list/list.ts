@@ -15,7 +15,7 @@ export class ListComponent implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private svc: QuizService, private router: Router) { }
+  constructor(private quizService: QuizService, private router: Router) { }
 
   ngOnInit(): void {
     this.load();
@@ -23,7 +23,7 @@ export class ListComponent implements OnInit {
 
   load() {
     this.loading = true;
-    this.svc.getAll().subscribe({
+    this.quizService.getAll().subscribe({
       next: (data) => { this.quizzes = data; this.loading = false; },
       error: (err) => { this.error = err?.message ?? 'Load failed'; this.loading = false; }
     });
@@ -36,7 +36,7 @@ export class ListComponent implements OnInit {
   delete(id?: number) {
     if (!id) return;
     if (!confirm('Delete this quiz?')) return;
-    this.svc.delete(id).subscribe({
+    this.quizService.delete(id).subscribe({
       next: () => this.load(),
       error: (err) => alert('Delete failed: ' + (err?.message ?? err))
     });
