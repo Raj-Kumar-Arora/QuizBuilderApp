@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
+using System.Security.Claims;
 using WebAPI.Data;
 using WebAPI.DTOs.Integrations.OpenTrivia;
 using WebAPI.DTOs.Quiz;
@@ -33,12 +32,11 @@ namespace WebAPI.Controllers
 
         // CREATE - POST: api/Quiz
         [HttpPost]
-        public IActionResult CreateQuiz([FromBody] QuizCreateRequest quizRequest)
+        public async Task<IActionResult> CreateQuiz([FromBody] QuizCreateRequest quizRequest)
         {
             if (quizRequest == null)
-            {
                 return BadRequest("Quiz cannot be null.");
-            }
+
             try
             {
                 var quiz = new Quiz
@@ -56,7 +54,7 @@ namespace WebAPI.Controllers
 
                 quiz.Validate();
                 _quizDbContext.Quizzes.Add(quiz);
-                _quizDbContext.SaveChanges();
+                await _quizDbContext.SaveChangesAsync();
 
                 var response = _mapper.Map<QuizCreateResponse>(quiz);
                 //ToDo : CreatedAtAction ??
@@ -79,49 +77,52 @@ namespace WebAPI.Controllers
         // READ - GET: api/Quiz by id
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetQuizById(int id)
+        public async Task<IActionResult> GetQuizById(int id)
         {
-            var quiz = _quizDbContext.Quizzes
+            var userId = GetUserId();
+            var quiz = await _quizDbContext.Quizzes
                         .Include(q => q.Questions)
                         .ThenInclude(q => q.Answers)
-                        .FirstOrDefault(q => q.Id == id);
+                        .FirstOrDefaultAsync(q => q.Id == id && q.AuthorId == userId);
+            
             if (quiz == null)
-            {
-                return NotFound();
-            }
+                return Forbid(); 
+
             return Ok(quiz);
         }
 
         // DELETE - DELETE: api/Quiz/{id}
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult DeleteQuiz(int id)
+        public async Task<IActionResult> DeleteQuiz(int id)
         {
-            var quiz = _quizDbContext.Quizzes.Find(id);
+            var userId = GetUserId();
+            var quiz = await _quizDbContext.Quizzes
+                        .FirstOrDefaultAsync(q => q.Id == id && q.AuthorId == userId);
+
             if (quiz == null)
-            {
-                return NotFound();
-            }
+                return Forbid();
+
             _quizDbContext.Quizzes.Remove(quiz);
-            _quizDbContext.SaveChanges();
+            await _quizDbContext.SaveChangesAsync();
+            
             return NoContent();
         }
         
         // UPDATE - PUT: api/Quiz/{id}
         [HttpPut]
         [Route("{id}")]
-        public IActionResult UpdateQuiz(int id, [FromBody] QuizUpdateRequest updatedQuiz)
+        public async Task<IActionResult> UpdateQuiz(int id, [FromBody] QuizUpdateRequest updatedQuiz)
         {
-            var existingQuiz = _quizDbContext.Quizzes
+            var userId = GetUserId();
+            var existingQuiz = await _quizDbContext.Quizzes
                                 .Include(q => q.Questions)
                                 .ThenInclude(q => q.Answers)
-                                .FirstOrDefault(q => q.Id == id);
+                                .FirstOrDefaultAsync(q => q.Id == id && q.AuthorId == userId);
             if (existingQuiz == null)
-            {
-                return NotFound();
-            }
-            existingQuiz.Title = updatedQuiz.Title;
+                return Forbid();
 
+            existingQuiz.Title = updatedQuiz.Title;
             existingQuiz.ClearQuestions();
             foreach (var q in updatedQuiz.Questions)
             {
@@ -129,25 +130,32 @@ namespace WebAPI.Controllers
             }
 
             existingQuiz.Validate();
-            _quizDbContext.SaveChanges();
+            await _quizDbContext.SaveChangesAsync();
+
             return Ok(_mapper.Map<QuizUpdateResponse>(existingQuiz));
         }
 
+        #endregion QUIZ - CRUD Operations
+
+        #region QUIZ - PUBLISH
+
         [HttpPut("{id}/publish")]
-        public IActionResult PublishQuiz(int id)
+        public async Task<IActionResult> PublishQuiz(int id)
         {
-            var quiz = _quizDbContext.Quizzes
+            var userId = GetUserId();
+
+            var quiz = await _quizDbContext.Quizzes
                         .Include(q => q.Questions)
                         .ThenInclude(q => q.Answers)
-                        .FirstOrDefault(q => q.Id == id);
+                        .FirstOrDefaultAsync(q => q.Id == id && q.AuthorId == userId);
 
             if (quiz == null)
-                return NotFound();
+                return Forbid();
 
             try
             {
                 quiz.Publish();
-                _quizDbContext.SaveChanges();
+                await _quizDbContext.SaveChangesAsync();
                 return Ok(new QuizPublishResponse
                 {
                     QuizId = quiz.Id,
@@ -163,18 +171,14 @@ namespace WebAPI.Controllers
             }
         }
 
-        #endregion QUIZ - CRUD Operations
-
-        #region QUIZ - PUBLISH
-
         [HttpGet("public/{permalink}")]
         [AllowAnonymous]
-        public IActionResult GetByPermalink(string permalink)
+        public async Task<IActionResult> GetByPermalink(string permalink)
         {
-            var quiz = _quizDbContext.Quizzes
+            var quiz = await _quizDbContext.Quizzes
                         .Include(q => q.Questions)
                         .ThenInclude(q => q.Answers)
-                        .FirstOrDefault(q => q.Permalink == permalink && q.IsPublished);
+                        .FirstOrDefaultAsync(q => q.Permalink == permalink && q.IsPublished);
 
             if (quiz == null)
                 return NotFound();
@@ -261,5 +265,19 @@ namespace WebAPI.Controllers
         }
 
         #endregion OpenTrivia Integration  / IMPORT QUESTIONS
+
+        #region AUTHORIZATION  HARDENING / HELPERS
+        // * Users cannot access others’ quizzes
+        // * Only owners can edit/delete/publish
+        // * Public users cannot access protected APIs
+        // * Backend is the single source of truth
+
+        private int GetUserId()
+        {
+            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        }
+
+        #endregion AUTHORIZATION  HARDENING / HELPERS
+
     }
 }
