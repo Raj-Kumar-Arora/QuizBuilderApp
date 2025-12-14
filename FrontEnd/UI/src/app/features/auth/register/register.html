@@ -1,5 +1,12 @@
 <h2>Register</h2>
 
+@if (loading) {
+  <div>Loading...</div>
+}
+@if (error) {
+  <div style="color: red">Error: {{ error }}</div>
+}
+
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div>
     <label>Username</label><br />

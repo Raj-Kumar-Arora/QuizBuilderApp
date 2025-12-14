@@ -13,7 +13,6 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(req: LoginRequest) {
-    console.log ('AuthService.login called with', req);
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, req)
       .pipe(tap(res => this.setToken(res.token)));
   }

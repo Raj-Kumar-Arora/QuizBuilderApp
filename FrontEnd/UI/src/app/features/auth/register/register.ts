@@ -11,6 +11,8 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class RegisterComponent {
   form!: FormGroup;
+  loading = false;
+  error = '';
 
   constructor(
     private fb: FormBuilder,
@@ -26,9 +28,12 @@ export class RegisterComponent {
 
   submit() {
     if (this.form.invalid) {
-      alert('Registration failed. Please check field values submitted.');
+      //alert('Registration failed. Please check field values submitted.');
       return;
     }
+
+    this.loading = true;
+    this.error = '';
 
     this.authService.register(this.form.value).subscribe({
       next: () => {

@@ -12,6 +12,8 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class LoginComponent {
   form!: FormGroup;
+  loading = false;
+  error = '';
 
   constructor(
     private fb: FormBuilder,
@@ -26,13 +28,20 @@ export class LoginComponent {
 
 
   submit() {
-    console.log('LOGIN FORM VALUE 👉', this.form.value);
     if (this.form.invalid) return;
 
-    console.log('navigating to auth service.login')
     this.authService.login(this.form.value).subscribe({
-      next: () => this.router.navigate(['/quiz/list']),
-      error: err => alert(err?.error?.message ?? 'Login failed')
+      next: (res: any) => {
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/quiz/list']);
+      },
+      error: err => {
+        if (err.status === 401) {
+          this.error = 'Invalid username or password';
+        } else {
+          this.error = 'Something went wrong.';
+        }
+      }
     });
   }
 }

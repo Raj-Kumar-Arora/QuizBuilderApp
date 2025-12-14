@@ -2,8 +2,13 @@
 
 <button (click)="create()">Create Quiz</button>
 
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="error">{{ error }}</div>
+@if (loading) {
+  <div>Loading...</div>
+}
+@if (error) {
+  <div style="color: red">Error: {{ error }}</div>
+}
+
 
 <table border="1" cellpadding="8">
   <tr>
@@ -44,5 +49,7 @@
   }
 </table>
 
+@if (!loading && quizzes.length == 0) {
+  <div>No quizzes yet.</div>
+}
 
-<div *ngIf="!loading && quizzes.length === 0">No quizzes yet.</div>
