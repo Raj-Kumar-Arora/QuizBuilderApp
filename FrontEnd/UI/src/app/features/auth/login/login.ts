@@ -32,7 +32,6 @@ export class LoginComponent {
 
     this.authService.login(this.form.value).subscribe({
       next: (res: any) => {
-        localStorage.setItem('token', res.token);
         this.router.navigate(['/quiz/list']);
       },
       error: err => {
