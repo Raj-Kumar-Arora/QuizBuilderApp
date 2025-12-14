@@ -29,7 +29,9 @@ namespace WebAPI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        // CREETE - POST: api/Quiz
+        #region QUIZ - CRUD Operations
+
+        // CREATE - POST: api/Quiz
         [HttpPost]
         public IActionResult CreateQuiz([FromBody] QuizCreateRequest quizRequest)
         {
@@ -161,6 +163,10 @@ namespace WebAPI.Controllers
             }
         }
 
+        #endregion QUIZ - CRUD Operations
+
+        #region QUIZ - PUBLISH
+
         [HttpGet("public/{permalink}")]
         [AllowAnonymous]
         public IActionResult GetByPermalink(string permalink)
@@ -176,7 +182,9 @@ namespace WebAPI.Controllers
             return Ok(quiz);
         }
 
-        #region OpenTrivia Integration
+        #endregion QUIZ - PUBLISH
+
+        #region OpenTrivia Integration / IMPORT QUESTIONS
         [HttpPost("{id}/import")]
         public async Task<IActionResult> ImportQuestions (int id, [FromQuery] OpenTriviaImportRequest importRequest)
         {
@@ -251,6 +259,7 @@ namespace WebAPI.Controllers
 
             return question;
         }
-        #endregion OpenTrivia Integration
+
+        #endregion OpenTrivia Integration  / IMPORT QUESTIONS
     }
 }

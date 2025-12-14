@@ -13,8 +13,12 @@ import { QuestionType } from '../../../models/quiz/question.model';
 })
 export class EditComponent implements OnInit {
   QuestionType = QuestionType;
-  quizForm!: FormGroup;
   quizId!: number;
+  importing = false;
+  message = '';
+
+  quizForm!: FormGroup;
+  importForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -28,13 +32,22 @@ export class EditComponent implements OnInit {
       isPublished: [false],
       questions: this.fb.array([])
     });
+
+    this.importForm = this.fb.group({
+      noOfQuestions: [3, [Validators.required, Validators.min(1)]],
+      type: ['multiple']
+    });
   }
 
   ngOnInit(): void {
     this.quizId = Number(this.route.snapshot.paramMap.get('id'));
-    this.quizService.getById(this.quizId).subscribe(q => this.patchForm(q));
+    this.loadQuiz();
   }
 
+  loadQuiz() {
+    this.quizService.getById(this.quizId).subscribe(q => this.patchForm(q));
+  }
+  //ToDo - patchForm ??
   patchForm(q: any): void {
     this.quizForm.patchValue({
       title: q.title,
@@ -73,7 +86,7 @@ export class EditComponent implements OnInit {
   addQuestion(): void {
     this.questions.push(this.fb.group({
       text: [''],
-      type: [QuestionType.None],
+      type: [QuestionType.MultipleChoice],
       answers: this.fb.array([])
     }));
   }
@@ -119,6 +132,28 @@ export class EditComponent implements OnInit {
     this.quizService.update(this.quizId, payload).subscribe({
       next: () => this.router.navigate(['/quiz']),
       error: err => alert('Update failed: ' + (err?.message ?? err))
+    });
+  }
+
+  importQuestions() {
+    if (this.importForm.invalid) return;
+
+    this.importing = true;
+    this.message = '';
+
+    this.quizService.importQuestions(
+      this.quizId,
+      this.importForm.value as any
+    ).subscribe({
+      next: (res: any) => {
+        this.message = `✅ ${res.imported} questions imported`;
+        this.importing = false;
+        this.loadQuiz(); // refresh questions
+      },
+      error: () => {
+        this.message = '❌ Import failed';
+        this.importing = false;
+      }
     });
   }
 }

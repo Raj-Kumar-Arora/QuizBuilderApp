@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Quiz } from '../models/quiz/quiz.model';
 import { PublishResponse } from '../models/quiz/publish-response.model';
+import { QuestionType } from '../models/quiz/question.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
@@ -40,5 +41,21 @@ export class QuizService {
   }
   getByPermalink(code: string): Observable<Quiz> {
     return this.http.get<Quiz>(`${this.apiUrl}/public/${code}`);
+  }
+
+  importQuestions(
+    quizId: number,
+    options: {
+      noOfQuestions: number;
+      questionType?: QuestionType;
+    }
+  )
+  {
+
+    let params = new HttpParams().set('noOfQuestions', options.noOfQuestions);
+    if (options.questionType)
+      params = params.set('questionType', options.questionType);
+
+    return this.http.post(`${this.apiUrl}/${quizId}/import`, null,{ params });
   }
 }

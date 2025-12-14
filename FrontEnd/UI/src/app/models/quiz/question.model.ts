@@ -2,9 +2,8 @@ import { Answer } from "./answer.model";
 
 export enum QuestionType {
   None = 0,
-  SingleChoice = 1,
-  MultipleChoice = 2,
-  Other = 3
+  MultipleChoice = 1,
+  TrueFalse = 2
 }
 
 export interface Question {

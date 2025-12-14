@@ -33,7 +33,7 @@ export class CreateComponent {
   addQuestion(): void {
     const q = this.fb.group({
       text: ['', Validators.required],
-      type: [QuestionType.SingleChoice, Validators.required],
+      type: [QuestionType.TrueFalse, Validators.required],
       answers: this.fb.array([])
     });
     this.questions.push(q);
