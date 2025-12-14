@@ -6,6 +6,7 @@ using System.Security.Claims;
 using WebAPI.Data;
 using WebAPI.DTOs.Integrations.OpenTrivia;
 using WebAPI.DTOs.Quiz;
+using WebAPI.Extensions;
 using WebAPI.Mappings;
 using WebAPI.Models;
 using WebAPI.Models.Enums;
@@ -39,10 +40,13 @@ namespace WebAPI.Controllers
 
             try
             {
+                //Read USER ID from JWT token claims
+                var userId = User.GetUserId();
+
                 var quiz = new Quiz
                 {
                     Title = quizRequest.Title,
-                    AuthorId = quizRequest.AuthorId
+                    AuthorId = userId
                 };
 
                 // MAP CHILD QUESTIONS
@@ -68,9 +72,18 @@ namespace WebAPI.Controllers
 
         // READ - GET: api/Quiz
         [HttpGet]
-        public IActionResult GetAllQuizzes()
+        public async Task<IActionResult> GetAllQuizzes()
         {
-            var quizzes = _quizDbContext.Quizzes.ToList();
+            //Read USER ID from JWT token claims
+            var userId = User.GetUserId();
+
+            var quizzes = await _quizDbContext.Quizzes
+                .Where(q => q.AuthorId == userId)
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.Answers)
+                .ToListAsync();
+
+            //Return OK : Http Status Code 200 (even if empty)
             return Ok(quizzes);
         }
 
@@ -79,14 +92,16 @@ namespace WebAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetQuizById(int id)
         {
-            var userId = GetUserId();
+            //Read USER ID from JWT token claims
+            var userId = User.GetUserId();
+
             var quiz = await _quizDbContext.Quizzes
                         .Include(q => q.Questions)
                         .ThenInclude(q => q.Answers)
                         .FirstOrDefaultAsync(q => q.Id == id && q.AuthorId == userId);
             
             if (quiz == null)
-                return Forbid(); 
+                return NotFound("Quiz not found");
 
             return Ok(quiz);
         }
@@ -96,12 +111,14 @@ namespace WebAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteQuiz(int id)
         {
-            var userId = GetUserId();
+            //Read USER ID from JWT token claims
+            var userId = User.GetUserId();
+
             var quiz = await _quizDbContext.Quizzes
                         .FirstOrDefaultAsync(q => q.Id == id && q.AuthorId == userId);
 
             if (quiz == null)
-                return Forbid();
+                return NotFound("Quiz not found");
 
             _quizDbContext.Quizzes.Remove(quiz);
             await _quizDbContext.SaveChangesAsync();
@@ -114,25 +131,27 @@ namespace WebAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateQuiz(int id, [FromBody] QuizUpdateRequest updatedQuiz)
         {
-            var userId = GetUserId();
-            var existingQuiz = await _quizDbContext.Quizzes
+            //Read USER ID from JWT token claims
+            var userId = User.GetUserId();
+
+            var quiz = await _quizDbContext.Quizzes
                                 .Include(q => q.Questions)
                                 .ThenInclude(q => q.Answers)
                                 .FirstOrDefaultAsync(q => q.Id == id && q.AuthorId == userId);
-            if (existingQuiz == null)
-                return Forbid();
+            if (quiz == null)
+                return NotFound("Quiz not found");
 
-            existingQuiz.Title = updatedQuiz.Title;
-            existingQuiz.ClearQuestions();
+            quiz.Title = updatedQuiz.Title;
+            quiz.ClearQuestions();
             foreach (var q in updatedQuiz.Questions)
             {
-                existingQuiz.AddQuestion(QuizMapper.MapQuestion(q));
+                quiz.AddQuestion(QuizMapper.MapQuestion(q));
             }
 
-            existingQuiz.Validate();
+            quiz.Validate();
             await _quizDbContext.SaveChangesAsync();
 
-            return Ok(_mapper.Map<QuizUpdateResponse>(existingQuiz));
+            return Ok(_mapper.Map<QuizUpdateResponse>(quiz));
         }
 
         #endregion QUIZ - CRUD Operations
@@ -142,7 +161,8 @@ namespace WebAPI.Controllers
         [HttpPut("{id}/publish")]
         public async Task<IActionResult> PublishQuiz(int id)
         {
-            var userId = GetUserId();
+            //Read USER ID from JWT token claims
+            var userId = User.GetUserId();
 
             var quiz = await _quizDbContext.Quizzes
                         .Include(q => q.Questions)
@@ -150,7 +170,7 @@ namespace WebAPI.Controllers
                         .FirstOrDefaultAsync(q => q.Id == id && q.AuthorId == userId);
 
             if (quiz == null)
-                return Forbid();
+                return NotFound("Quiz not found");
 
             try
             {
@@ -181,7 +201,7 @@ namespace WebAPI.Controllers
                         .FirstOrDefaultAsync(q => q.Permalink == permalink && q.IsPublished);
 
             if (quiz == null)
-                return NotFound();
+                return NotFound("Quiz not found");
 
             return Ok(quiz);
         }
@@ -265,19 +285,6 @@ namespace WebAPI.Controllers
         }
 
         #endregion OpenTrivia Integration  / IMPORT QUESTIONS
-
-        #region AUTHORIZATION  HARDENING / HELPERS
-        // * Users cannot access others’ quizzes
-        // * Only owners can edit/delete/publish
-        // * Public users cannot access protected APIs
-        // * Backend is the single source of truth
-
-        private int GetUserId()
-        {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        }
-
-        #endregion AUTHORIZATION  HARDENING / HELPERS
 
     }
 }

@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using WebAPI.Data;
 using WebAPI.DTOs.Authentication;
 using WebAPI.Models;
@@ -12,11 +16,13 @@ namespace WebAPI.Controllers
     {
         private readonly QuizDbContext _context;
         private readonly IAuthService _authService;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(QuizDbContext context, IAuthService authService)
+        public AuthController(QuizDbContext context, IAuthService authService, IConfiguration configuration)
         {
             _context = context;
             _authService = authService;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -45,17 +51,39 @@ namespace WebAPI.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginRequest request)
         {
+            //string token = _authService.CreateToken(user);
+            //return Ok(new { token });
+
             var user = _context.Users.SingleOrDefault(u => u.Email == request.Email);
 
-            if (user == null)
-                return Unauthorized("Invalid username or password");
+            if (user == null || !_authService.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+                return Unauthorized("Invalid credentials");
 
-            if (!_authService.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-                return Unauthorized("Invalid username or password");
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.Email)
+            };
 
-            string token = _authService.CreateToken(user);
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])
+            );
 
-            return Ok(new { token });
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(2),
+                signingCredentials: creds
+            );
+
+            return Ok(new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token)
+            });
         }
     }
 }
