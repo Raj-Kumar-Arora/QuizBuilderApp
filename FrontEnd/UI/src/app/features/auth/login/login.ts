@@ -32,6 +32,7 @@ export class LoginComponent {
 
     this.authService.login(this.form.value).subscribe({
       next: (res: any) => {
+        //console.log('Login successful', res);
         this.router.navigate(['/quiz/list']);
       },
       error: err => {

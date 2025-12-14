@@ -5,7 +5,10 @@
 @if (loading) {
   <div>Loading...</div>
 }
-@if (error) {
+@else if (!loading && quizzes.length == 0) {
+  <div>No quizzes yet.</div>
+}
+@else if (error) {
   <div style="color: red">Error: {{ error }}</div>
 }
 
@@ -49,7 +52,5 @@
   }
 </table>
 
-@if (!loading && quizzes.length == 0) {
-  <div>No quizzes yet.</div>
-}
+
 
