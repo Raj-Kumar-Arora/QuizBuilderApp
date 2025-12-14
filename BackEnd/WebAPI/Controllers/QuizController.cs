@@ -3,10 +3,13 @@ using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 using WebAPI.Data;
+using WebAPI.DTOs.Integrations.OpenTrivia;
 using WebAPI.DTOs.Quiz;
 using WebAPI.Mappings;
 using WebAPI.Models;
+using WebAPI.Models.Enums;
 
 namespace WebAPI.Controllers
 {
@@ -17,11 +20,13 @@ namespace WebAPI.Controllers
     {
         private readonly QuizDbContext _quizDbContext;
         private readonly IMapper _mapper;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public QuizController(QuizDbContext quizDbContext, IMapper mapper)
+        public QuizController(QuizDbContext quizDbContext, IMapper mapper, IHttpClientFactory httpClientFactory)
         {
             _quizDbContext = quizDbContext;
             _mapper = mapper;
+            _httpClientFactory = httpClientFactory;
         }
 
         // CREETE - POST: api/Quiz
@@ -171,5 +176,81 @@ namespace WebAPI.Controllers
             return Ok(quiz);
         }
 
+        #region OpenTrivia Integration
+        [HttpPost("{id}/import")]
+        public async Task<IActionResult> ImportQuestions (int id, [FromQuery] OpenTriviaImportRequest importRequest)
+        {
+            var quiz = await _quizDbContext.Quizzes
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.Answers)
+                .FirstOrDefaultAsync(q => q.Id == id);
+
+            if (quiz == null)
+                return NotFound("Quiz not found");
+
+            if (quiz.IsPublished)
+                return BadRequest("Cannot modify a published quiz");
+
+            var url = BuildTriviaApiUrl(importRequest.NoOfQuestions, importRequest.QuestionType);
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetFromJsonAsync<OpenTriviaResponse>(url);
+
+            if (response == null || response.Response_Code != 0)
+                return BadRequest("Trivia API failed");
+
+            foreach (var t in response.Results)
+            {
+                var question = MapTriviaQuestion(t, quiz.Id);
+                quiz.AddQuestion(question);
+            }
+
+            quiz.Validate();
+            await _quizDbContext.SaveChangesAsync();
+
+            return Ok(new { Imported = response.Results.Count });
+        }
+
+        private static string BuildTriviaApiUrl(int noOfQuestions, QuestionType questionType)
+        {
+            var query = new List<string> { $"amount={noOfQuestions}" };
+
+            if (questionType == QuestionType.MultipleChoice)
+                query.Add($"type=multiple");
+            else if (questionType == QuestionType.TrueFalse)
+                query.Add($"type=boolean");
+
+            return $"https://opentdb.com/api.php?{string.Join("&", query)}";
+        }
+        private static Question MapTriviaQuestion(OpenTriviaQuestion t, int quizId)
+        {
+            var question = new Question
+            {
+                QuizId = quizId,
+                Text = t.Question,
+                Type = t.Type == "multiple"
+                    ? QuestionType.MultipleChoice
+                    : QuestionType.TrueFalse,
+                Answers = []
+            };
+
+            question.Answers.Add(new Answer
+            {
+                Text = t.Correct_Answer,
+                IsCorrect = true
+            });
+
+            foreach (var a in t.Incorrect_Answers)
+            {
+                question.Answers.Add(new Answer
+                {
+                    Text = a,
+                    IsCorrect = false
+                });
+            }
+
+            return question;
+        }
+        #endregion OpenTrivia Integration
     }
 }

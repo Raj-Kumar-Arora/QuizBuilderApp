@@ -28,9 +28,9 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
 // Configure custom services
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddHttpClient();
 
 var jwtKey = builder.Configuration["Jwt:Key"];
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

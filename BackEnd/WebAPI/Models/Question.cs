@@ -14,10 +14,10 @@ namespace WebAPI.Models
 
         public void Validate()
         {
-            if (Type == QuestionType.MultipleChoice || Type == QuestionType.SingleChoice)
+            if (Type == QuestionType.MultipleChoice || Type == QuestionType.TrueFalse)
             {
                 int correctAnswersCount = Answers.Count(a => a.IsCorrect);
-                if (Type == QuestionType.SingleChoice && correctAnswersCount != 1)
+                if (Type == QuestionType.TrueFalse && correctAnswersCount != 1)
                 {
                     throw new InvalidOperationException("Single choice questions must have exactly one correct answer.");
                 }
