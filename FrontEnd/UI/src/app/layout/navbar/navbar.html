@@ -4,8 +4,8 @@
   <nav class="nav-actions">
     <button routerLink="/">Home</button>
 
-    <button *ngIf="!auth.isLoggedIn()" routerLink="/login">Login</button>
-    <button *ngIf="!auth.isLoggedIn()" routerLink="/register">Register</button>
+    <button *ngIf="!auth.isLoggedIn()" (click)="openLogin()"> Login </button>
+    <button *ngIf="!auth.isLoggedIn()" (click)="openRegister()"> Register </button>
 
     <button *ngIf="auth.isLoggedIn()" routerLink="/quiz/list">My Quizzes</button>
     <button *ngIf="auth.isLoggedIn()" routerLink="/quiz/create">Create Quiz</button>
@@ -14,3 +14,8 @@
   </nav>
 </header>
 
+<app-auth-modal
+  *ngIf="showAuthModal"
+  [mode]="mode"
+  (close)="showAuthModal = false">
+</app-auth-modal>

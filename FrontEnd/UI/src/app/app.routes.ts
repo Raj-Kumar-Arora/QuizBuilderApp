@@ -10,14 +10,16 @@ import { LoginComponent } from './features/auth/login/login';
 import { RegisterComponent } from './features/auth/register/register';
 
 import { AuthGuard } from './shared/auth.guard';
+import { HomeComponent } from './home/home';
 
 export const routes: Routes = [
   // default
-  { path: '', redirectTo: 'quiz/list', pathMatch: 'full' },
+  { path: '', component: HomeComponent  },
 
   // public – no auth
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  // login/register functionality moved to Modal/Popup dialog
+  // { path: 'login', component: LoginComponent },
+  // { path: 'register', component: RegisterComponent },
   { path: 'take/:code', component: TakeQuizComponent },
 
   // quiz (protected)
@@ -27,6 +29,6 @@ export const routes: Routes = [
   { path: 'quiz/view/:id', component: ViewComponent, canActivate: [AuthGuard] },
 
   // fallback
-  { path: '**', redirectTo: 'quiz/list' }
+  { path: '**', redirectTo: '' }
 ];
 

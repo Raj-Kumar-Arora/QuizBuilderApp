@@ -1,0 +1,8 @@
+<div class="backdrop" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">×</button>
+
+    <app-login *ngIf="mode === 'login'"></app-login>
+    <app-register *ngIf="mode === 'register'"></app-register>
+  </div>
+</div>

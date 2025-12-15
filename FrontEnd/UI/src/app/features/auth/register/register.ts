@@ -37,6 +37,7 @@ export class RegisterComponent {
 
     this.authService.register(this.form.value).subscribe({
       next: () => {
+        window.
         alert('Registration successful. Please login.');
         this.router.navigate(['/login']);
       },
