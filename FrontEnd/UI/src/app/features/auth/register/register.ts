@@ -29,6 +29,7 @@ export class RegisterComponent {
   submit() {
     if (this.form.invalid) {
       //alert('Registration failed. Please check field values submitted.');
+      this.error = 'Registration failed. Please check field values submitted.';
       return;
     }
 
@@ -37,8 +38,9 @@ export class RegisterComponent {
 
     this.authService.register(this.form.value).subscribe({
       next: () => {
-        window.
-        alert('Registration successful. Please login.');
+        window.location.reload();
+        //alert('Registration successful. Please login.');
+        this.loading = true
         this.router.navigate(['/login']);
       },
       error: err => alert(err?.error?.message ?? 'Registration failed')

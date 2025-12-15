@@ -12,6 +12,10 @@
   color: #666;
   margin-bottom: 40px;
 }
+/* .quiz-box {
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.85);
+} */
 
 .quiz-box {
   width: 400px;

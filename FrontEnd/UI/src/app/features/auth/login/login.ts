@@ -28,11 +28,15 @@ export class LoginComponent {
 
 
   submit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.error = 'Invalid username or password';
+      return;
+    }  
 
     this.authService.login(this.form.value).subscribe({
       next: (res: any) => {
         //console.log('Login successful', res);
+        window.location.reload();
         this.router.navigate(['/quiz/list']);
       },
       error: err => {
