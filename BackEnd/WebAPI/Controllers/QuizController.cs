@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using WebAPI.Data;
 using WebAPI.DTOs.Integrations.OpenTrivia;
+using WebAPI.DTOs.Question;
 using WebAPI.DTOs.Quiz;
 using WebAPI.Extensions;
 using WebAPI.Mappings;
@@ -208,7 +209,7 @@ namespace WebAPI.Controllers
 
         #endregion QUIZ - PUBLISH
 
-        #region OpenTrivia Integration / IMPORT QUESTIONS
+        #region QUIZ - OpenTrivia Integration / IMPORT QUESTIONS
         [HttpPost("{id}/import")]
         public async Task<IActionResult> ImportQuestions (int id, [FromQuery] OpenTriviaImportRequest importRequest)
         {
@@ -284,7 +285,70 @@ namespace WebAPI.Controllers
             return question;
         }
 
-        #endregion OpenTrivia Integration  / IMPORT QUESTIONS
+        #endregion QUIZ - OpenTrivia Integration  / IMPORT QUESTIONS
+
+        #region QUIZ - TAKE QUIZ
+
+        [HttpPost("{id}/take")]
+        [AllowAnonymous] // Public quiz
+        public async Task<IActionResult> SubmitQuiz(int id, QuizTakeRequest request)
+        {
+            var quiz = await _quizDbContext.Quizzes
+                    .Include(q => q.Questions)
+                    .ThenInclude(q => q.Answers)
+                    .FirstOrDefaultAsync(q => q.Id == id && q.IsPublished);
+
+            if (quiz == null)
+                return NotFound("Quiz not found");
+
+            int correctCount = 0;
+            var results = new List<QuestionTakeResponse>();
+
+            foreach (var question in quiz.Questions)
+            {
+                var correctAnswerIds = question.Answers
+                    .Where(a => a.IsCorrect)
+                    .Select(a => a.Id)
+                    .OrderBy(x => x)
+                    .ToList();
+
+                var userAnswer = request.Answers
+                    .FirstOrDefault(a => a.QuestionId == question.Id);
+
+                bool isCorrect =
+                    userAnswer != null &&
+                    userAnswer.SelectedAnswerIds
+                        .OrderBy(x => x)
+                        .SequenceEqual(correctAnswerIds);
+
+                if (isCorrect)
+                    correctCount++;
+
+                results.Add(new QuestionTakeResponse
+                {
+                    QuestionId = question.Id,
+                    IsCorrect = isCorrect,
+                    CorrectAnswerIds = correctAnswerIds
+                });
+            }
+
+            var response = new QuizTakeResponse
+            {
+                TotalQuestions = quiz.Questions.Count,
+                CorrectAnswers = correctCount,
+                ScorePercentage =
+                    quiz.Questions.Count == 0
+                        ? 0
+                        : Math.Round(
+                            (double)correctCount / quiz.Questions.Count * 100, 2),
+                QuestionResults = results
+            };
+
+            return Ok(response);
+        }
+
+
+        #endregion QUIZ - TAKE QUIZ
 
     }
 }
