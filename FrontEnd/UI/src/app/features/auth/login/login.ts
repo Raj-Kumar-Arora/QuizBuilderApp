@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.html'
 })
 export class LoginComponent {
@@ -31,7 +31,7 @@ export class LoginComponent {
     if (this.form.invalid) {
       this.error = 'Invalid username or password';
       return;
-    }  
+    }
 
     this.authService.login(this.form.value).subscribe({
       next: (res: any) => {

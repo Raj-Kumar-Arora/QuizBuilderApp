@@ -19,7 +19,6 @@ export class ViewComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.quizService.getById(id).subscribe(q => {
           this.quiz = q;
-          console.log(this.quiz);
     });
   }
 }

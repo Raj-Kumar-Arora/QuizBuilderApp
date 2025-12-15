@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Quiz } from '../models/quiz/quiz.model';
 import { PublishResponse } from '../models/quiz/publish-response.model';
 import { QuestionType } from '../models/quiz/question.model';
+import { QuizResult } from '../models/quiz-take.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
@@ -58,4 +59,12 @@ export class QuizService {
 
     return this.http.post(`${this.apiUrl}/${quizId}/import`, null,{ params });
   }
+
+  submitQuiz(quizId: number, payload: any) {
+    return this.http.post<QuizResult>(
+      `${this.apiUrl}/${quizId}/take`,
+      payload
+    );
+  }
+
 }
