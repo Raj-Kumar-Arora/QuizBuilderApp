@@ -1,0 +1,15 @@
+<section class="home-container">
+  <h1>Welcome to QUIZ BUILDER APP</h1>
+  <p>Create, publish and share quizzes easily</p>
+
+  <div class="quiz-box">
+    <label>ENTER URL TO QUIZ</label>
+    <input
+      type="text"
+      placeholder="https://localhost:4200/take/ABC123"
+      [(ngModel)]="quizUrl"
+    />
+    <button (click)="openQuiz()">Open Quiz</button>
+  </div>
+</section>
+
