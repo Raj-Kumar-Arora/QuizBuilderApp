@@ -15,6 +15,7 @@ export class CreateComponent {
   QuestionType = QuestionType;
   //importing = false;
   //message = '';
+  error = '';
 
   quizForm! : FormGroup;
   //importForm!: FormGroup;
@@ -111,7 +112,23 @@ export class CreateComponent {
 
   submit(): void {
     if (this.quizForm.invalid) {
+      this.error = 'Invalid data entered!';
+      //ToDo
       this.quizForm.markAllAsTouched();
+      return;
+    }
+
+    const questions = this.quizForm.value.questions;
+    const invalidQuestion = questions.length < 1 || questions.length > 10
+    const invalidAnswer = questions.find((q: any) =>
+      !q.answers || q.answers.length < 1 || q.answers.length > 5
+    );
+    if (invalidQuestion) {
+      this.error = 'No of Questions should be between 1 - 10 !';
+      return;
+    }
+    if (invalidAnswer) {
+      this.error = 'No of Answers should be between 1 - 5 !';
       return;
     }
 
@@ -128,7 +145,7 @@ export class CreateComponent {
 
     this.quizService.create(payload).subscribe({
       next: () => this.router.navigate(['/quiz']),
-      error: (err) => alert('Create failed: ' + (err?.message ?? err))
+      error: (err) => this.error = 'Create failed: ' + (err?.error ?? err)
     });
   }
 

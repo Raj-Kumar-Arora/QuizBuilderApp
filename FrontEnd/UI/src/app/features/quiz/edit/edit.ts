@@ -16,6 +16,7 @@ export class EditComponent implements OnInit {
   quizId!: number;
   importing = false;
   message = '';
+  error = '';
 
   quizForm!: FormGroup;
   importForm!: FormGroup;
@@ -58,22 +59,22 @@ export class EditComponent implements OnInit {
     const qs = this.quizForm.get('questions') as FormArray;
     qs.clear();
 
- q.questions.forEach((q: any)=> {
-  this.questions.push(
-    this.fb.group({
-      text: [q.text],
+    q.questions.forEach((q: any)=> {
+      this.questions.push(
+        this.fb.group({
+          text: [q.text],
       questionType: [q.questionType ?? 0],
-      answers: this.fb.array(
-        q.answers.map((a: any) =>
-          this.fb.group({
-            text: [a.text],
-            isCorrect: [a.isCorrect]
-          })
-        )
-      )
-    })
-  );
-});
+          answers: this.fb.array(
+            q.answers.map((a: any) =>
+              this.fb.group({
+                text: [a.text],
+                isCorrect: [a.isCorrect]
+              })
+            )
+          )
+        })
+      );
+    });
 
   }
 
@@ -118,10 +119,25 @@ export class EditComponent implements OnInit {
 
   submit(): void {
     if (this.quizForm.invalid) {
+      this.error = 'Invalid data entered!';
       this.quizForm.markAllAsTouched();
       return;
     }
 
+    const questions = this.quizForm.value.questions;
+    const invalidQuestion = questions.length < 1 || questions.length > 10
+    const invalidAnswer = questions.find((q: any) =>
+      !q.answers || q.answers.length < 1 || q.answers.length > 5
+    );
+    if (invalidQuestion) {
+      this.error = 'No of Questions should be between 1 - 10 !';
+      return;
+    }
+    if (invalidAnswer) {
+      this.error = 'No of Answers should be between 1 - 5 !';
+      return;
+    }
+    
     const payload = {
       title: this.quizForm.value.title,
       authorId: this.quizForm.value.authorId,
@@ -137,7 +153,7 @@ export class EditComponent implements OnInit {
 
     this.quizService.update(this.quizId, payload).subscribe({
       next: () => this.router.navigate(['/quiz']),
-      error: err => alert('Update failed: ' + (err?.message ?? err))
+      error: err => this.error = ('Update failed: ' + (err?.message ?? err))
     });
   }
 

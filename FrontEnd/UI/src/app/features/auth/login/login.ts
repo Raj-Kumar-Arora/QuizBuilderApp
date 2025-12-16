@@ -43,7 +43,7 @@ export class LoginComponent {
         if (err.status === 401) {
           this.error = 'Invalid username or password!';
         } else {
-          this.error = 'Something went wrong.';
+          this.error = 'Not able to connect with Quiz Service/Backend !';
         }
       }
     });
