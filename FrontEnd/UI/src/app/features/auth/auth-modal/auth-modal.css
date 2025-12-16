@@ -1,39 +1,55 @@
+/* Dark overlay behind modal */
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(46, 45, 45, 0.8);
   display: flex;
-  justify-content: center;
   align-items: center;
-  animation: fadeIn 0.2s ease-in;
+  justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
+/* Modal container — FIXED */
 .modal {
-  background: white;
-  width: 420px;
-  padding: 28px;
-  border-radius: 14px;
+  background: rgba(46, 45, 45, 0.623);
+  border-radius: 8px;
   position: relative;
-  animation: scaleIn 0.2s ease-in;
+  width: 520px;
+  max-width: 90vw;
+  box-shadow: 0 15px 40px rgba(5, 50, 50, 0.9);
+  position: relative;
+  z-index: 1001;
+  border: #fff 1px solid;
 }
 
+/* Close button */
 .close-btn {
   position: absolute;
-  right: 14px;
-  top: 10px;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   border: none;
-  background: none;
+  background: #dc3545;
+  color: white;
+  font-weight: bold;
   font-size: 22px;
   cursor: pointer;
+  line-height: 1;
+  padding: 4px;
 }
-
-@keyframes fadeIn {
-  from { opacity: 0 }
-  to { opacity: 1 }
+.close-btn:hover {
+  color: #ff4d4d; /* subtle red hover */
 }
-
-@keyframes scaleIn {
-  from { transform: scale(0.95) }
-  to { transform: scale(1) }
+.form-box input {
+  width: 100%;
+  padding: 10px 1px;   /* ← left & right both */
+  box-sizing: border-box;
+}
+.form-box label {
+  display: block;
+  margin-bottom: 6px;
+  margin-top: 14px;
 }

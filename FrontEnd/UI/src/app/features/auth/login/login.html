@@ -1,28 +1,21 @@
-<h2>Login</h2>
+<div class="page-container" >
+  <div class="page-title">Login</div>
 
 @if (loading) {
   <div>Loading...</div>
 }
-@if (error) {
-  <div style="color: red">Error: {{ error }}</div>
-}
 
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div>
-    <label>Email</label><br />
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-box">
+    <label>Email</label>
     <input type="email" formControlName="email" />
-  </div>
 
-  <div>
-    <label>Password</label><br />
+    <label>Password</label>
     <input type="password" formControlName="password" />
-      <button class="btn btn-primary" type="submit">Register</button>
-  </div>
 
-  <button type="submit">Login</button>
+    <div >
+      <button class="btn btn-primary" type="submit">Login</button>
+    </div>
+
+    <div class="error-text" *ngIf="error">{{ error }}</div>
 </form>
 
-<!-- <p>
-  Don't have an account?
-  <a routerLink="/register">Register</a>
-</p> -->

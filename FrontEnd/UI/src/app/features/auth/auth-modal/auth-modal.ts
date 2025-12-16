@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { Component, HostListener, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../login/login';
 import { RegisterComponent } from '../register/register';
@@ -10,12 +10,20 @@ import { RegisterComponent } from '../register/register';
   templateUrl: './auth-modal.html',
   styleUrls: ['./auth-modal.css']
 })
-export class AuthModalComponent {
+export class AuthModalComponent implements OnInit, OnDestroy {
   @Input() mode: 'login' | 'register' = 'login';
   @Output() close = new EventEmitter<void>();
 
   closeModal() {
     this.close.emit();
+  }
+
+  ngOnInit() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  ngOnDestroy() {
+    document.body.style.overflow = '';
   }
 
   // ESC key support
