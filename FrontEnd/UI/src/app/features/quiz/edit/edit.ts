@@ -58,24 +58,23 @@ export class EditComponent implements OnInit {
     const qs = this.quizForm.get('questions') as FormArray;
     qs.clear();
 
-    (q.questions || []).forEach((qq: any) => {
-      const qg = this.fb.group({
-        id: [qq.id],
-        text: [qq.text],
-        type: [qq.type],
-        answers: this.fb.array([])
-      });
+ q.questions.forEach((q: any)=> {
+  this.questions.push(
+    this.fb.group({
+      text: [q.text],
+      questionType: [q.questionType ?? 0],
+      answers: this.fb.array(
+        q.answers.map((a: any) =>
+          this.fb.group({
+            text: [a.text],
+            isCorrect: [a.isCorrect]
+          })
+        )
+      )
+    })
+  );
+});
 
-      (qq.answers || []).forEach((aa: any) => {
-        (qg.get('answers') as FormArray).push(this.fb.group({
-          id: [aa.id],
-          text: [aa.text],
-          isCorrect: [aa.isCorrect]
-        }));
-      });
-
-      qs.push(qg);
-    });
   }
 
   // helpers (same as create)
@@ -84,19 +83,23 @@ export class EditComponent implements OnInit {
   }
 
   addQuestion(): void {
-    this.questions.push(this.fb.group({
-      text: [''],
-      type: [QuestionType.MultipleChoice],
+    const q = this.fb.group({
+      text: ['', Validators.required],
+      questionType: [1, Validators.required],
       answers: this.fb.array([])
-    }));
+    });
+    this.questions.push(q);
   }
 
   removeQuestion(index: number): void {
-    this.questions.removeAt(index);
+    if (index >= 0 && index < this.questions.length) {
+      this.questions.removeAt(index);
+    }
   }
 
-  getAnswers(qIndex: number): FormArray {
-    return (this.questions.at(qIndex).get('answers') as FormArray);
+  getAnswers(questionIndex: number): FormArray  {
+    const q = this.questions.at(questionIndex);
+    return q.get('answers') as FormArray;
   }
 
   addAnswer(qIndex: number): void {
@@ -106,8 +109,11 @@ export class EditComponent implements OnInit {
     }));
   }
 
-  removeAnswer(qIndex: number, aIndex: number): void {
-    this.getAnswers(qIndex).removeAt(aIndex);
+  removeAnswer(questionIndex: number, answerIndex: number): void {
+    const answers = this.getAnswers(questionIndex);
+    if (answerIndex >= 0 && answerIndex < answers.length) {
+      answers.removeAt(answerIndex);
+    }
   }
 
   submit(): void {
@@ -148,6 +154,7 @@ export class EditComponent implements OnInit {
       next: (res: any) => {
         this.message = `✅ ${res.imported} questions imported`;
         this.importing = false;
+        console.log('Import result:', res);
         this.loadQuiz(); // refresh questions
       },
       error: () => {

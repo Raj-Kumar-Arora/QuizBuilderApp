@@ -9,16 +9,20 @@ import { Quiz } from '../../../models/quiz/quiz.model';
 @Component({
   standalone: true,
   selector: 'app-quiz-view',
-  imports: [RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './view.html'
 })
 export class ViewComponent implements OnInit {
   quiz?: Quiz;
+  loading = true;
+
   constructor(private route: ActivatedRoute, private quizService: QuizService) { }
+
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.quizService.getById(id).subscribe(q => {
           this.quiz = q;
+          this.loading = false;
     });
   }
 }

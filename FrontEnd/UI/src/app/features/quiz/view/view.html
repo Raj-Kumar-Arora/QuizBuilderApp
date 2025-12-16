@@ -1,25 +1,39 @@
-<h2>{{quiz?.title}}</h2>
-<p>AuthorId: {{quiz?.authorId}}</p>
-<p>Published: {{quiz?.isPublished}}</p>
+<div class="page-container" *ngIf="!loading && quiz">
 
-<h3>Questions</h3>
-<ul>
-  @for (q of quiz?.questions || []; track q) {
-    <li>
-      <strong>{{ q.text }}</strong> (type: {{ q.type }})
+  <div class="page-title">
+    {{ quiz.title }}
+  </div>
 
-      <ul>
-        @for (a of q.answers || []; track a) {
-          <li>
-            {{ a.text }}
-            @if (a.isCorrect) {
-              <span>✓</span>
-            }
-          </li>
-        }
-      </ul>
-    </li>
-  }
-</ul>
+  <div
+    class="question-box"
+    *ngFor="let q of quiz.questions; let i = index"
+  >
+    <div class="question-header">
+      Q{{ i + 1 }}. {{ q.text }}
+      <span class="question-type">
+        ({{ q.type }})
+      </span>
+    </div>
 
-<button routerLink="/quiz">Back</button>
+    <ul class="answer-list">
+      <li
+        *ngFor="let a of q.answers"
+        [class.correct-answer]="a.isCorrect"
+      >
+        {{ a.text }}
+        <span *ngIf="a.isCorrect">✓</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-actions">
+    <button class="btn btn-secondary" routerLink="/quiz/list">
+      Back
+    </button>
+  </div>
+
+</div>
+
+<div *ngIf="loading" class="loading-text">
+  Loading quiz...
+</div>

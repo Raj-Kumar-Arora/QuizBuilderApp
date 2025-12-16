@@ -283,3 +283,19 @@ button {
 .modal app-login {
   width: 620px;
 }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.option label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0px 10px 70px;
+}
+
+.option label input {
+  margin: 0 0 0 -50px
+}

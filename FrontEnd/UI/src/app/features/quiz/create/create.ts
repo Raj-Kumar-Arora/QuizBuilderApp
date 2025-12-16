@@ -13,16 +13,59 @@ import { QuestionType } from '../../../models/quiz/question.model';
 })
 export class CreateComponent {
   QuestionType = QuestionType;
-  quizForm! : FormGroup
+  //importing = false;
+  //message = '';
+
+  quizForm! : FormGroup;
+  //importForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private quizService: QuizService, private router: Router)
   {
       this.quizForm = this.fb.group({
         title: ['', Validators.required],
-        // authorId: [0, Validators.required],
-        // isPublished: [false],
         questions: this.fb.array([])
       });
+
+
+      //ToDo - Import  To be added later
+  //    this.importForm = this.fb.group({
+  //      noOfQuestions: [3, [Validators.required, Validators.min(1)]],
+  //      type: ['multiple']
+  //    });
+  //}
+
+  //   loadQuiz() {
+  //   this.quizService.getById(this.quizId).subscribe(q => this.patchForm(q));
+  // }
+  //ToDo - patchForm ??
+  //patchForm(q: any): void {
+  //  this.quizForm.patchValue({
+  //    title: q.title,
+  //    authorId: q.authorId,
+  //    isPublished: !!q.isPublished
+  //  });
+
+  //  const qs = this.quizForm.get('questions') as FormArray;
+  //  qs.clear();
+
+  //  (q.questions || []).forEach((qq: any) => {
+  //    const qg = this.fb.group({
+  //      id: [qq.id],
+  //      text: [qq.text],
+  //      type: [qq.type],
+  //      answers: this.fb.array([])
+  //    });
+
+  //    (qq.answers || []).forEach((aa: any) => {
+  //      (qg.get('answers') as FormArray).push(this.fb.group({
+  //        id: [aa.id],
+  //        text: [aa.text],
+  //        isCorrect: [aa.isCorrect]
+  //      }));
+  //    });
+
+  //    qs.push(qg);
+  //  });
   }
 
   // helpers for questions and answers
@@ -88,4 +131,27 @@ export class CreateComponent {
       error: (err) => alert('Create failed: ' + (err?.message ?? err))
     });
   }
+
+  //ToDo - Import  To be added later
+  //  importQuestions() {
+  //  if (this.importForm.invalid) return;
+
+  //  this.importing = true;
+  //  this.message = '';
+
+  //  this.quizService.importQuestions(
+  //    null,
+  //    this.importForm.value as any
+  //  ).subscribe({
+  //    next: (res: any) => {
+  //      this.message = `✅ ${res.imported} questions imported`;
+  //      this.importing = false;
+  //      //this.loadQuiz(); // refresh questions
+  //    },
+  //    error: () => {
+  //      this.message = '❌ Import failed';
+  //      this.importing = false;
+  //    }
+  //  });
+  //}
 }

@@ -1,47 +1,56 @@
-<h2>QUIZ TITLE : {{ quiz?.title }}</h2>
+<div class="page-container">
+  <div class="page-title">Take Quiz</div>
 
-@for (q of quiz?.questions ?? []; track q.id) {
-  <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px">
-    <strong>QUESTON : {{ q.text }}</strong>
+  <div class="quiz-card" *ngIf="quiz">
+    <h3 class="quiz-title">{{ quiz.title }}</h3>
 
-    <ul>
-      @for (a of q.answers; track a.id) {
-      <li>
+
+    <div class="question-box"
+         *ngFor="let q of quiz.questions; let i = index">
+
+      <div class="question-title">
+        {{ i + 1 }}. {{ q.text }}
+      </div>
+
+      <!-- Single choice -->
+      <div class="option"
+           *ngFor="let a of q.answers">
         <label>
-          <input type="checkbox" [checked]="a.selected" (change)="toggleAnswer(q, a)" />
           {{ a.text }}
+          <input type="checkbox" [checked]="a.selected" (change)="toggleAnswer(q, a)">
         </label>
-      </li>
-      }
-    </ul>
-  </div>
-}
+      </div>
 
-<button (click)="submitQuiz()">Submit Quiz</button>
+    </div>
 
-<div *ngIf="submitted && result" style="margin-top: 20px;">
-  <h2>Quiz Result</h2>
+    <div class="form-actions">
+      <button class="btn btn-primary" (click)="submitQuiz()">
+        Submit Quiz
+      </button>
+    </div>
 
-  <p>
-    Score:
-    <strong>{{ result.correctAnswers }}</strong>
-    / {{ result.totalQuestions }}
-  </p>
+    <div *ngIf="submitted && result" style="margin-top: 20px;">
+      <h2>Quiz Result</h2>
 
-  <p>
-    Percentage:
-    <strong>{{ result.scorePercentage }}%</strong>
-  </p>
+      <p>
+        Score:
+        <strong>{{ result.correctAnswers }}</strong>
+        / {{ result.totalQuestions }}
+      </p>
 
-  <hr />
+      <p>
+        Percentage:
+        <strong>{{ result.scorePercentage }}%</strong>
+      </p>
 
-  <div *ngFor="let q of quiz?.questions">
-    <h4>{{ q.text }}</h4>
+      <hr />
 
-    <ul>
-      <li
-        *ngFor="let a of q.answers"
-        [style.color]="
+      <div *ngFor="let q of quiz?.questions">
+        <h4>{{ q.text }}</h4>
+
+        <ul>
+          <li *ngFor="let a of q.answers"
+              [style.color]="
           submitted
             ? isAnswerCorrect(q.id!, a.id!)
               ? 'green'
@@ -49,12 +58,10 @@
                 ? 'red'
                 : 'black'
             : 'black'
-        "
-      >
-        {{ a.text }}
-        <span *ngIf="isAnswerCorrect(q.id!, a.id!)">✓</span>
-      </li>
-    </ul>
-  </div>
-</div>
-
+        ">
+            {{ a.text }}
+            <span *ngIf="isAnswerCorrect(q.id!, a.id!)">✓</span>
+          </li>
+        </ul>
+      </div>
+    </div>

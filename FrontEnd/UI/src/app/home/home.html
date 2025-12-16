@@ -2,14 +2,16 @@
   <h2>Welcome to QUIZ BUILDER</h2>
   <p>Create, publish and share quizzes easily</p>
 
-  <div class="quiz-box">
-    <label>ENTER QUIZ URL  (Full / 6 Chars Code)</label>
+<div class="quiz-box">
+  <label>ENTER QUIZ URL  (Full / 6 Chars Code)</label>
+  <div class="quiz-input-row">
     <input
       type="text"
       placeholder="https://localhost:4200/take/xyz123"
       [(ngModel)]="quizUrl"
     />
-    <button (click)="openQuiz()">Open Quiz</button>
+    <button class="btn-primary" (click)="openQuiz()">Open Quiz</button>
   </div>
+</div>
 </section>
 

@@ -1,56 +1,128 @@
-<h2>Create Quiz</h2>
+<div class="page-container">
 
-<form [formGroup]="quizForm" (ngSubmit)="submit()">
-  <label>Title</label>
-  <input formControlName="title" />
+  <h2 class="page-title">Edit Quiz</h2>
 
-  <label>AuthorId</label>
-  <input type="number" formControlName="authorId" />
+  <form [formGroup]="quizForm" (ngSubmit)="submit()">
 
-  <label>
-    <input type="checkbox" formControlName="isPublished" /> Published
-  </label>
+    <!-- ================= TITLE ================= -->
+    <div class="form-group">
+      <label class="form-label">Title</label>
+      <input
+        type="text"
+        class="form-input"
+        formControlName="title"
+        placeholder="Enter quiz title"
+      />
+    </div>
 
-  <section>
-    <h3>Questions</h3>
-    <button type="button" (click)="addQuestion()">Edit question</button>
+        <!-- ================= QUESTIONS ================= -->
+    <div formArrayName="questions">
+      <h3 class="section-title">Questions</h3>
 
-    <div formArrayName="questions" *ngFor="let qCtrl of questions.controls; let i = index">
-      <div [formGroupName]="i" style="border:1px solid #ddd; padding:8px; margin:8px 0;">
-        <label>Question text</label>
-        <input formControlName="text" />
+      <button
+        type="button"
+        class="btn-primary btn-small"
+        (click)="addQuestion()"
+      >
+        Add Question
+      </button>
 
-        <label>Type</label>
-        <select formControlName="type">
-          <option [value]="QuestionType.MultipleChoice">Multiple Choice</option>
-          <option [value]="QuestionType.TrueFalse">Single Choice</option>
-        </select>
+      <div
+        class="question-box"
+        *ngFor="let question of questions.controls; let qi = index"
+        [formGroupName]="qi"
+      >
 
-        <div>
-          <h4>Answers</h4>
-          <button type="button" (click)="addAnswer(i)">Add answer</button>
+        <!-- Question Text -->
+        <div class="form-group">
+          <label class="form-label">Question - {{ qi + 1 }}</label>
+          <input
+            type="text"
+            class="form-input"
+            formControlName="text"
+            placeholder="Enter question"
+          />
+        </div>
 
-          <div formArrayName="answers" *ngFor="let aCtrl of getAnswers(i).controls; let j = index">
-            <div [formGroupName]="j">
-              <input formControlName="text" placeholder="Answer text" />
-              <label><input type="checkbox" formControlName="isCorrect" /> Correct</label>
-              <button type="button" (click)="removeAnswer(i, j)">Remove</button>
+        <!-- Question Type -->
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-input" formControlName="questionType">
+            <option [ngValue]="0">Single Choice</option>
+            <option [ngValue]="1">Multiple Choice</option>
+          </select>
+        </div>
+
+        <!-- ================= ANSWERS ================= -->
+        <div formArrayName="answers">
+          <h4 class="sub-title">Answers</h4>
+
+          <button
+            type="button"
+            class="btn-secondary btn-small"
+            (click)="addAnswer(qi)"
+          >
+            Add Answer
+          </button>
+
+          <div
+            class="answer-box"
+            *ngFor="let answer of getAnswers(qi).controls; let ai = index"
+            [formGroupName]="ai"
+          >
+
+            <!-- Answer Text -->
+            <input
+              type="text"
+              class="form-input"
+              formControlName="text"
+              placeholder="Answer text"
+            />
+
+            <!-- Correct + Remove -->
+            <div class="answer-row">
+              <label class="answer-correct">
+                <input type="checkbox" formControlName="isCorrect" />
+                Correct
+              </label>
+
+              <button
+                type="button"
+                class="btn-danger btn-small"
+                (click)="removeAnswer(qi, ai)"
+              >
+                Remove
+              </button>
             </div>
+
           </div>
         </div>
 
-        <button type="button" (click)="removeQuestion(i)">Remove question</button>
+        <!-- Remove Question -->
+        <button
+          type="button"
+          class="btn-danger btn-small mt-10"
+          (click)="removeQuestion(qi)"
+        >
+          Remove Question
+        </button>
+
       </div>
     </div>
-  </section>
 
-  <button type="submit">Update</button>
-  <button routerLink="/quiz/list" type="button">Cancel</button>
+  <!-- ================= ACTIONS ================= -->
+  <div class="form-actions">
+    <button type="submit" class="btn-primary">Save</button>
+    <button type="button" class="btn-secondary" routerLink="/quiz/list">
+      Cancel
+    </button>
+  </div>
 </form>
 
-<hr />
+</div>
 
-<h3>Import Questions  <h6>(from External Open Trivia API)</h6> </h3>
+<div class="page-container">
+  <div class="page-title">Import Questions <span>(from External Open Trivia API)</span></div>
 
 <form [formGroup]="importForm">
   <label>
@@ -66,7 +138,7 @@
   </label>
 
   <button type="button"
-          (click)="importQuestions()"
+          (click)="importQuestions()" class="btn-primary"
           [disabled]="importing">
     Import
   </button>
