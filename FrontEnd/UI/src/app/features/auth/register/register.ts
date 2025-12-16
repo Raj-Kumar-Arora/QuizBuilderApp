@@ -30,7 +30,7 @@ export class RegisterComponent {
   submit() {
     if (this.form.invalid) {
       //alert('Registration failed. Please check field values submitted.');
-      this.error = 'Registration failed. Please check field values submitted.';
+      this.error = 'Registration failed. Please check field values submitted!';
       return;
     }
 

@@ -152,6 +152,7 @@ p, span {
 /* ===== Inputs ===== */
 input, select, textarea {
   width: 100%;
+  margin-bottom: 10px;
   padding: 8px;
   margin-bottom: 12px;
   border-radius: 4px;
@@ -270,7 +271,12 @@ button {
   font-weight: 500;
 }
 
-
+.success-text {
+  color: rgb(38, 155, 64);
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-left: 2px;
+}
 /* =============================
    FORMS
 ============================= */

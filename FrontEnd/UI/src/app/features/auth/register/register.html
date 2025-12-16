@@ -2,7 +2,7 @@
   <div class="page-title">Register</div>
 
 @if (loading) {
-    <div style="color: rgb(38, 155, 64); font-weight: bold; font-size: 1.3rem;">Loading...{{ error }}</div>
+    <div class="success-text"> Loading...{{ error }}</div>
 }
 
  <form [formGroup]="form" (ngSubmit)="submit()" class="form-box">

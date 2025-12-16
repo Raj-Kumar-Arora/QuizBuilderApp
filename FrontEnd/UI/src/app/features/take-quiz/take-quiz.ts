@@ -53,9 +53,19 @@ export class TakeQuizComponent implements OnInit {
     });
   }
 
+  // toggleAnswer(question: any, answer: any) {
+  //   answer.selected = !answer.selected;
+  // }
   toggleAnswer(question: any, answer: any) {
     answer.selected = !answer.selected;
+
+    // Reset result if user changes answers after submission
+    if (this.submitted) {
+      this.submitted = false;
+      this.result = undefined;
+    }
   }
+
 
   isAnswerCorrect(questionId: number, answerId: number): boolean {
     const questionResult = this.result?.questionResults.find(r => r.questionId === questionId);

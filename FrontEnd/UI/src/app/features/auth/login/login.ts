@@ -29,19 +29,19 @@ export class LoginComponent {
 
   submit() {
     if (this.form.invalid) {
-      this.error = 'Invalid username or password';
+      this.error = 'Invalid username or password !';
       return;
     }
 
     this.authService.login(this.form.value).subscribe({
       next: (res: any) => {
-        //console.log('Login successful', res);
+        //console.log('Login successful, navigating to QUIZ LIST');
         window.location.reload();
         this.router.navigate(['/quiz/list']);
       },
       error: err => {
         if (err.status === 401) {
-          this.error = 'Invalid username or password';
+          this.error = 'Invalid username or password!';
         } else {
           this.error = 'Something went wrong.';
         }

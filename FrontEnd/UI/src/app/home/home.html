@@ -1,5 +1,5 @@
 <section class="home-container">
-  <h2>Welcome to QUIZ BUILDER</h2>
+  <h2>Welcome to Quiz Builder</h2>
   <p>Create, publish and share quizzes easily</p>
 
 <div class="quiz-box">
@@ -11,6 +11,8 @@
       [(ngModel)]="quizUrl"
     />
     <button class="btn-primary" (click)="openQuiz()">Open Quiz</button>
+
+    <div class="error-text" *ngIf="error">{{ error }}</div>
   </div>
 </div>
 </section>

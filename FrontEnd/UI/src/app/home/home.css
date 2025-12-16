@@ -55,3 +55,10 @@
   background: rgba(82, 80, 80, 0.623);
 }
 
+.error-text {
+  margin-top: 10px;
+  color: #b63131;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 600;
+}
