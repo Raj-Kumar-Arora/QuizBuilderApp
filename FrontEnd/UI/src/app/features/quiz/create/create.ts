@@ -19,8 +19,8 @@ export class CreateComponent {
   {
       this.quizForm = this.fb.group({
         title: ['', Validators.required],
-        authorId: [0, Validators.required],
-        isPublished: [false],
+        // authorId: [0, Validators.required],
+        // isPublished: [false],
         questions: this.fb.array([])
       });
   }
@@ -33,7 +33,7 @@ export class CreateComponent {
   addQuestion(): void {
     const q = this.fb.group({
       text: ['', Validators.required],
-      type: [QuestionType.TrueFalse, Validators.required],
+      questionType: [0],
       answers: this.fb.array([])
     });
     this.questions.push(q);

@@ -1,18 +1,28 @@
-<header class="navbar">
-  <div class="logo" routerLink="/">QUIZ BUILDER</div>
+<div class="navbar">
 
-  <nav class="nav-actions">
+  <!-- LEFT SECTION -->
+  <div class="nav-left">
     <button routerLink="/">Home</button>
-
-    <button *ngIf="!auth.isLoggedIn()" (click)="openLogin()"> Login </button>
-    <button *ngIf="!auth.isLoggedIn()" (click)="openRegister()"> Register </button>
-
-    <button *ngIf="auth.isLoggedIn()" routerLink="/quiz/list">My Quizzes</button>
     <button *ngIf="auth.isLoggedIn()" routerLink="/quiz/create">Create Quiz</button>
+    <button *ngIf="auth.isLoggedIn()" routerLink="/quiz/list">My Quizzes</button>
+  </div>
 
-    <button *ngIf="auth.isLoggedIn()" (click)="logout()">Logout</button>
-  </nav>
-</header>
+  <!-- CENTER TITLE -->
+  <div class="nav-center">
+    <span class="title">Quiz Builder</span>
+  </div>
+
+  <!-- RIGHT SECTION -->
+  <div class="nav-right">
+    <button *ngIf="!auth.isLoggedIn()" (click)="openLogin()">Login</button>
+    <button *ngIf="!auth.isLoggedIn()" (click)="openRegister()">Register</button>
+
+    <button class="btn-danger"  *ngIf="auth.isLoggedIn()" (click)="confirmLogout()">Logout</button>
+  </div>
+
+</div>
+
+
 
 <app-auth-modal
   *ngIf="showAuthModal"

@@ -1,1 +1,258 @@
 /* You can add global styles to this file, and also import other style files */
+/* ===============================
+   ENTERPRISE DARK THEME
+================================ */
+
+:root {
+  --bg-main: #1b1e2f;
+  --bg-navbar: #4a4a4a;
+  --bg-card: #2a2f4a;
+  --bg-card-dark: #242846;
+
+  --primary: #5c6bc0;
+  --primary-light: #7986cb;
+
+  --text-main: #ffffff;
+  --text-muted: #b0b6d3;
+
+  --border-soft: rgba(255, 255, 255, 0.08);
+}
+
+/* App background */
+/* body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+} */
+body {
+  margin: 0;
+  background: #2c5364;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  color: white;
+}
+/* ===== Section grouping ===== */
+.section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Question / Answer block */
+.block {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #203a43;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 6px;
+}
+.btn-primary {
+  background: #203a43;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #2c5364;
+}
+
+.btn-danger {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #203a43;
+  color: white;
+  text-align: left;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  color: white;
+}
+
+/* White section title */
+.section-title {
+  color: white;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+}
+
+/* Space between action buttons in tables */
+.action-buttons button {
+  margin-right: 8px;
+}
+
+/* ===== Page container ===== */
+.page-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* ===== Headings ===== */
+.page-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Label spacing */
+label {
+  display: block;
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+
+/* Inputs */
+input, select {
+  height: 36px;
+}
+/* Buttons row */
+.button-row {
+  margin-top: 20px;
+}
+
+.button-row button {
+  margin-right: 10px;
+}
+
+/* Small buttons (Add / Remove) */
+.btn-small {
+  padding: 4px 10px;
+  font-size: 13px;
+}
+p, span {
+  color: white;
+}
+
+/* ===== Inputs ===== */
+input, select, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border: none;
+}
+
+/* ===== Buttons ===== */
+button {
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+}
+
+.btn-primary {
+  background: #4fc3f7;
+  color: black;
+}
+
+.btn-danger {
+  background: #e53935;
+  color: white;
+}
+
+.btn-secondary {
+  background: #90a4ae;
+  color: black;
+}
+
+/* ===== Button spacing ===== */
+.action-buttons button {
+  margin-right: 8px;
+}
+
+/* ===== Error & loading ===== */
+.error {
+  color: #ff8a80;
+  font-weight: bold;
+}
+
+.loading {
+  color: #81d4fa;
+  font-weight: bold;
+}
+/* ===== Answer row alignment ===== */
+.answer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+/* Checkbox group */
+.answer-correct {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 14px;
+}
+
+/* FIX checkbox size */
+.answer-correct input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Remove button inline */
+.answer-remove {
+  margin-left: auto;
+}
+/* Space between major sections */
+.section-title {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+/* Add space below Add Question button */
+.btn-small {
+  margin-bottom: 16px;
+}
+
+/* Question container spacing */
+.question-box {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+}
+
+/* Space between answers */
+.answer-box {
+  margin-top: 12px;
+}
+
+/* Save / Cancel buttons spacing */
+.form-actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 12px;              /* 👈 horizontal spacing */
+}

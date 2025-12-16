@@ -1,19 +1,38 @@
-<h2>Quizzes</h2>
+<div class="page-container">
+  <div class="section">
+    <h2 class="section-title">My Quizzes</h2>
 
-<button (click)="create()">Create Quiz</button>
+  @if (loading) {
+    <div>Loading...</div>
+  }
+  @else if (!loading && quizzes.length == 0) {
+    <div>No quizzes yet.</div>
+  }
+  @else if (error) {
+    <div style="color: red">Error: {{ error }}</div>
+  }
 
-@if (loading) {
-  <div>Loading...</div>
-}
-@else if (!loading && quizzes.length == 0) {
-  <div>No quizzes yet.</div>
-}
-@else if (error) {
-  <div style="color: red">Error: {{ error }}</div>
-}
+  <table>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
 
+      <tr *ngFor="let q of quizzes">
+        <td>{{ q.title }}</td>
+        <td>{{ q.isPublished ? 'Published' : 'Draft' }}</td>
+        <td class="action-buttons">
+          <button class="btn-primary" (click)="view(q.id)">View</button>
+          <button class="btn-primary" (click)="edit(q.id)">Edit</button>
+          <button class="btn-danger" (click)="delete(q.id)">Delete</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
 
-<table border="1" cellpadding="8">
+<!-- <table border="1" cellpadding="8">
   <tr>
     <th>Title</th>
     <th>Status</th>
@@ -50,7 +69,7 @@
     </td>
   </tr>
   }
-</table>
+</table> -->
 
 
 
