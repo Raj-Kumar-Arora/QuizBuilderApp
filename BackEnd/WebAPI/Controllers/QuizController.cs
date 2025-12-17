@@ -261,7 +261,7 @@ namespace WebAPI.Controllers
             {
                 QuizId = quizId,
                 Text = t.Question,
-                Type = t.Type == "multiple"
+                QuestionType = t.Type == "multiple"
                     ? QuestionType.MultipleChoice
                     : QuestionType.TrueFalse,
                 Answers = []

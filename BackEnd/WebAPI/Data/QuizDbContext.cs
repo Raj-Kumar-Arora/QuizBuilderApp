@@ -19,6 +19,10 @@ namespace WebAPI.Data
             modelBuilder.Entity<Quiz>()
                 .HasIndex(q => q.Permalink)
                 .IsUnique();
+            modelBuilder.Entity<Question>()
+                .Property(q => q.QuestionType)
+                .HasConversion<int>(); // store QuestionType enum as int
+
         }
 
     }

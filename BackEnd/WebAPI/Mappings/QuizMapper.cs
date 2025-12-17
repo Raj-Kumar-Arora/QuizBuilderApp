@@ -10,7 +10,7 @@ namespace WebAPI.Mappings
             var question = new Question
             {
                 Text = dto.Text,
-                Type = dto.QuestionType,
+                QuestionType = dto.QuestionType,
                 Answers = dto.Answers.Select(a => new Answer
                 {
                     Text = a.Text,

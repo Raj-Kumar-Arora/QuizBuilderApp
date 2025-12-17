@@ -6,7 +6,7 @@ namespace WebAPI.Models
     {
         public int Id { get; set; }
         public required string Text { get; set; } = string.Empty;
-        public required QuestionType Type { get; set; }
+        public required QuestionType QuestionType { get; set; }
         public int QuizId { get; set; }
         public string QuizName { get; set; } = string.Empty;
 
@@ -14,14 +14,14 @@ namespace WebAPI.Models
 
         public void Validate()
         {
-            if (Type == QuestionType.MultipleChoice || Type == QuestionType.TrueFalse)
+            if (QuestionType == QuestionType.MultipleChoice || QuestionType == QuestionType.TrueFalse)
             {
                 int correctAnswersCount = Answers.Count(a => a.IsCorrect);
-                if (Type == QuestionType.TrueFalse && correctAnswersCount != 1)
+                if (QuestionType == QuestionType.TrueFalse && correctAnswersCount != 1)
                 {
                     throw new InvalidOperationException("Single choice questions must have exactly one correct answer.");
                 }
-                if (Type == QuestionType.MultipleChoice && correctAnswersCount < 1)
+                if (QuestionType == QuestionType.MultipleChoice && correctAnswersCount < 1)
                 {
                     throw new InvalidOperationException("Multiple choice questions must have at least one correct answer.");
                 }
