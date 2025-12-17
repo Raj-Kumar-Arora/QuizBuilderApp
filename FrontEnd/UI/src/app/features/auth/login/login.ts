@@ -13,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
 export class LoginComponent {
   form!: FormGroup;
   loading = false;
-  error = '';
+  error : string  | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +29,7 @@ export class LoginComponent {
 
   submit() {
     if (this.form.invalid) {
-      this.error = 'Invalid username or password !';
+      this.showError ('Invalid username or password !');
       return;
     }
 
@@ -41,11 +41,16 @@ export class LoginComponent {
       },
       error: err => {
         if (err.status === 401) {
-          this.error = 'Invalid username or password!';
+          this.showError ('Invalid username or password!');
         } else {
-          this.error = 'Not able to connect with Quiz Service/Backend !';
+          this.showError ('Not able to connect with Quiz Service/Backend !');
         }
       }
     });
+  }
+
+  showError(msg: string) {
+     this.error = msg;
+     setTimeout(() => { this.error = null; }, 1500);
   }
 }

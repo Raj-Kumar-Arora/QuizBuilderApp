@@ -16,7 +16,7 @@ export class EditComponent implements OnInit {
   quizId!: number;
   importing = false;
   message = '';
-  error = '';
+  error : string  | null = null;
 
   quizForm!: FormGroup;
   importForm!: FormGroup;
@@ -119,7 +119,7 @@ export class EditComponent implements OnInit {
 
   submit(): void {
     if (this.quizForm.invalid) {
-      this.error = 'Invalid data entered!';
+      this.showError('Invalid data entered!');
       this.quizForm.markAllAsTouched();
       return;
     }
@@ -130,30 +130,27 @@ export class EditComponent implements OnInit {
       !q.answers || q.answers.length < 1 || q.answers.length > 5
     );
     if (invalidQuestion) {
-      this.error = 'No of Questions should be between 1 - 10 !';
+      this.showError ('No of Questions should be between 1 - 10 !');
       return;
     }
     if (invalidAnswer) {
-      this.error = 'No of Answers should be between 1 - 5 !';
+      this.showError ('No of Answers should be between 1 - 5 !');
       return;
     }
-    
+
     const payload = {
       title: this.quizForm.value.title,
-      authorId: this.quizForm.value.authorId,
-      isPublished: this.quizForm.value.isPublished,
       questions: this.quizForm.value.questions.map((qq: any) => ({
-        id: qq.id,
         text: qq.text,
-        type: qq.type,
+        questionType: qq.questionType,
         quizId: this.quizId,
         answers: (qq.answers || []).map((aa: any) => ({ id: aa.id, text: aa.text, isCorrect: !!aa.isCorrect }))
       }))
     };
 
     this.quizService.update(this.quizId, payload).subscribe({
-      next: () => this.router.navigate(['/quiz']),
-      error: err => this.error = ('Update failed: ' + (err?.message ?? err))
+      next: () => this.router.navigate(['/quiz/list']),
+      error: err => this.showError ('Update failed: ' + (err?.message ?? err))
     });
   }
 
@@ -178,5 +175,10 @@ export class EditComponent implements OnInit {
         this.importing = false;
       }
     });
+  }
+
+  showError(msg: string) {
+     this.error = msg;
+     setTimeout(() => { this.error = null; }, 5000);
   }
 }

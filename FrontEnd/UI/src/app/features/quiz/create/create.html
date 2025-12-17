@@ -35,7 +35,7 @@
 
         <!-- Question Text -->
         <div class="form-group">
-          <label class="form-label">Question text</label>
+          <label class="form-label">Question - {{ qi + 1 }}</label>
           <input
             type="text"
             class="form-input"
@@ -111,7 +111,7 @@
     </div>
 
     <div class="error-text" *ngIf="error">{{ error }}</div>
-    
+
     <!-- ================= ACTIONS ================= -->
     <div class="form-actions">
       <button type="submit" class="btn-primary">Save</button>
@@ -119,7 +119,6 @@
         Cancel
       </button>
     </div>
-
   </form>
 
 </div>
@@ -128,7 +127,8 @@
 <!-- ToDo - Import  To be added later -->
 <!-- ******************************** -->
 
-<!--<h3>Import Questions  <h6>(from External Open Trivia API)</h6> </h3>
+<!-- <div class="page-container">
+  <div class="page-title">Import Questions <span>(from External Open Trivia API)</span></div>
 
 <form [formGroup]="importForm">
   <label>
@@ -144,7 +144,7 @@
   </label>
 
   <button type="button"
-          (click)="importQuestions()"
+          (click)="importQuestions()" class="btn-primary"
           [disabled]="importing">
     Import
   </button>
@@ -153,4 +153,4 @@
 @if (message)
 {
   <p>{{ message }}</p>
-}-->
+} -->

@@ -15,7 +15,7 @@ export class CreateComponent {
   QuestionType = QuestionType;
   //importing = false;
   //message = '';
-  error = '';
+  error : string  | null = null;
 
   quizForm! : FormGroup;
   //importForm!: FormGroup;
@@ -77,7 +77,7 @@ export class CreateComponent {
   addQuestion(): void {
     const q = this.fb.group({
       text: ['', Validators.required],
-      questionType: [0],
+      questionType: [1],
       answers: this.fb.array([])
     });
     this.questions.push(q);
@@ -112,7 +112,7 @@ export class CreateComponent {
 
   submit(): void {
     if (this.quizForm.invalid) {
-      this.error = 'Invalid data entered!';
+      this.showError ('Invalid data entered!');
       //ToDo
       this.quizForm.markAllAsTouched();
       return;
@@ -124,28 +124,26 @@ export class CreateComponent {
       !q.answers || q.answers.length < 1 || q.answers.length > 5
     );
     if (invalidQuestion) {
-      this.error = 'No of Questions should be between 1 - 10 !';
+      this.showError ('No of Questions should be between 1 - 10 !');
       return;
     }
     if (invalidAnswer) {
-      this.error = 'No of Answers should be between 1 - 5 !';
+      this.showError ('No of Answers should be between 1 - 5 !');
       return;
     }
 
     const payload = {
       title: this.quizForm.value.title,
-      authorId: this.quizForm.value.authorId,
-      isPublished: !!this.quizForm.value.isPublished,
       questions: (this.quizForm.value.questions || []).map((q: any) => ({
         text: q.text,
-        type: q.type,
+        questionType: q.questionType,
         answers: (q.answers || []).map((a: any) => ({ text: a.text, isCorrect: !!a.isCorrect }))
       }))
     };
 
     this.quizService.create(payload).subscribe({
       next: () => this.router.navigate(['/quiz']),
-      error: (err) => this.error = 'Create failed: ' + (err?.error ?? err)
+      error: (err) => this.showError('Create failed: ' + (err?.error ?? err))
     });
   }
 
@@ -171,4 +169,9 @@ export class CreateComponent {
   //    }
   //  });
   //}
+
+  showError(msg: string) {
+     this.error = msg;
+     setTimeout(() => { this.error = null; }, 5000);
+  }
 }

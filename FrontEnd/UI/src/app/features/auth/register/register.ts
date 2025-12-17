@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
   form!: FormGroup;
   loading = false;
-  error = '';
+  error : string  | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -29,8 +29,7 @@ export class RegisterComponent {
 
   submit() {
     if (this.form.invalid) {
-      //alert('Registration failed. Please check field values submitted.');
-      this.error = 'Registration failed. Please check field values submitted!';
+      this.showError ('Registration failed. Please check field values submitted!');
       return;
     }
 
@@ -44,7 +43,12 @@ export class RegisterComponent {
         this.loading = true
         this.router.navigate(['/login']);
       },
-      error: err => alert(err?.error?.message ?? 'Registration failed')
+      error: err => this.showError (err?.error?.message ?? 'Registration failed')
     });
+  }
+
+  showError(msg: string) {
+     this.error = msg;
+     setTimeout(() => { this.error = null; }, 1500);
   }
 }
