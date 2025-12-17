@@ -48,8 +48,8 @@
         <div class="form-group">
           <label class="form-label">Type</label>
           <select class="form-input" formControlName="questionType">
-            <option [value]="0">Single Choice</option>
-            <option [value]="1">Multiple Choice</option>
+            <option [value]="1">MultipleChoice</option>
+            <option [value]="2">TrueFalse</option>
           </select>
         </div>
 
@@ -82,7 +82,7 @@
             <!-- Correct + Remove -->
             <div class="answer-row">
               <label class="answer-correct">
-                <input type="checkbox" formControlName="isCorrect" />
+                <input type="checkbox" formControlName="isCorrect" (change)="onCorrectChanged(qi, ai)"/>
                 Correct
               </label>
 

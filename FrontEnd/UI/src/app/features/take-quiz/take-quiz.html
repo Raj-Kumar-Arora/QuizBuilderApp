@@ -13,13 +13,17 @@
       </div>
 
       <!-- Single choice -->
-      <div class="option"
-           *ngFor="let a of q.answers">
-        <label>
-          {{ a.text }}
-          <input type="checkbox" [checked]="a.selected" (change)="toggleAnswer(q, a)">
-        </label>
-      </div>
+      <ul class="answer-list">
+        <li *ngFor="let a of q.answers">
+          <label class="answer-label">
+            <input type="checkbox"
+                  [checked]="a.selected"
+                  (change)="toggleAnswer(q, a)">
+            {{ a.text }}
+          </label>
+        </li>
+      </ul>
+
 
     </div>
 

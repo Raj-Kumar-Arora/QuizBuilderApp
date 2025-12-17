@@ -13,7 +13,7 @@ import { Quiz } from '../../../models/quiz/quiz.model';
 export class ListComponent implements OnInit {
   quizzes: Quiz[] = [];
   loading = false;
-  error = '';
+  error : string  | null = null;
 
   constructor(private quizService: QuizService, private router: Router) { }
 
@@ -50,5 +50,22 @@ export class ListComponent implements OnInit {
       },
       error: err => alert(err.error)
     });
+  }
+
+  openQuiz(id: number) {
+    const code = this.quizzes.find(q => q.id = id)?.permalink;
+    if (code) {
+      this.showError('Invalid Quiz URL !');
+    }
+
+    const url = `/take/${code}`;
+    this.router.navigate([url])
+      .then ( () =>   this.showError('User navigated to quiz.') )
+      .catch( () => this.showError('Invalid Quiz URL !'));
+  }
+
+    showError(msg: string) {
+     this.error = msg;
+     setTimeout(() => { this.error = null; }, 5000);
   }
 }

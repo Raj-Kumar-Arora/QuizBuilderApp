@@ -24,8 +24,14 @@
         <td>{{ q.isPublished ? 'Published' : 'Draft' }}</td>
         <td class="action-buttons">
           <button class="btn-primary" (click)="view(q.id)">View</button>
+        @if (!q.isPublished) {
           <button class="btn-primary" (click)="edit(q.id)">Edit</button>
-          <button class="btn-danger" (click)="delete(q.id)">Delete</button>
+          <button (click)="publish(q.id!)">Publish</button>
+        }
+        @if (q.isPublished) {
+          <button (click)="openQuiz(q.id!)">Open Quiz</button>
+        }
+        <button class="btn-danger" (click)="delete(q.id)">Delete</button>
         </td>
       </tr>
     </table>

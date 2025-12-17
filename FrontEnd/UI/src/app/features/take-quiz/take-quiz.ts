@@ -23,14 +23,17 @@ export class TakeQuizComponent implements OnInit {
 
   ngOnInit() {
     const code = this.route.snapshot.paramMap.get('code')!;
-    this.quizService.getByPermalink(code).subscribe(q => {
-      this.quiz = q;
-      // Initialize selected property for each answer
-      this.quiz.questions.forEach(question => {
-        question.answers.forEach(answer => {
-          answer.selected = false;
-        });
+    this.quizService.getByPermalink(code).subscribe({
+      next : (q:Quiz) => {
+        this.quiz = q;
+        // Initialize selected property for each answer
+        this.quiz.questions.forEach(question => {
+          question.answers.forEach(answer => {
+            answer.selected = false;
+          });
       });
+     },
+     error : (err:any) => alert(err.error)
     });
   }
 

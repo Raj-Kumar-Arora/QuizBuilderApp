@@ -305,3 +305,28 @@ button {
 .option label input {
   margin: 0 0 0 -50px
 }
+.answer-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.answer-list li {
+  margin-bottom: 10px;
+}
+
+.answer-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: white;
+}
+
+.answer-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+

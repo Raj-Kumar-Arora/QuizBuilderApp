@@ -2,7 +2,7 @@
   <div class="modal" (click)="$event.stopPropagation()">
     <button class="close-btn" (click)="closeModal()">×</button>
 
-    <app-login *ngIf="mode === 'login'"></app-login>
-    <app-register *ngIf="mode === 'register'"></app-register>
+    <app-login *ngIf="mode === 'login'" (loggedIn)="closeModal()"></app-login>
+    <app-register *ngIf="mode === 'register'" (registered)="closeModal()"></app-register>
   </div>
 </div>

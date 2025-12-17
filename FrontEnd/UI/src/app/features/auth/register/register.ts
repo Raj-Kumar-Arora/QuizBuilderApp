@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -14,6 +14,7 @@ export class RegisterComponent {
   form!: FormGroup;
   loading = false;
   error : string  | null = null;
+  @Output() registered = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -38,8 +39,9 @@ export class RegisterComponent {
 
     this.authService.register(this.form.value).subscribe({
       next: () => {
-        window.location.reload();
+        //window.location.reload();
         //alert('Registration successful. Please login.');
+         this.registered.emit(); // notify parent modal
         this.loading = true
         this.router.navigate(['/login']);
       },

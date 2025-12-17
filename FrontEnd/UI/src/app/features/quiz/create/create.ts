@@ -77,7 +77,7 @@ export class CreateComponent {
   addQuestion(): void {
     const q = this.fb.group({
       text: ['', Validators.required],
-      questionType: [1],
+      questionType: [2, Validators.required],
       answers: this.fb.array([])
     });
     this.questions.push(q);
@@ -110,6 +110,21 @@ export class CreateComponent {
     }
   }
 
+
+  onCorrectChanged(questionIndex: number, answerIndex: number) {
+    const question = this.quizForm.value.questions[questionIndex];
+
+    if (question.questionType === 2) { // TrueFalse
+      const answers = this.questions.at(questionIndex).get('answers') as FormArray;
+
+      answers.controls.forEach((ctrl, i) => {
+        if (i !== answerIndex) {
+          ctrl.get('isCorrect')?.setValue(false, { emitEvent: false });
+        }
+      });
+    }
+  }
+  
   submit(): void {
     if (this.quizForm.invalid) {
       this.showError ('Invalid data entered!');
@@ -136,12 +151,12 @@ export class CreateComponent {
       title: this.quizForm.value.title,
       questions: (this.quizForm.value.questions || []).map((q: any) => ({
         text: q.text,
-        questionType: q.questionType,
+        questionType: Number(q.questionType),
         answers: (q.answers || []).map((a: any) => ({ text: a.text, isCorrect: !!a.isCorrect }))
       }))
     };
 
-    this.quizService.create(payload).subscribe({
+   this.quizService.create(payload).subscribe({
       next: () => this.router.navigate(['/quiz']),
       error: (err) => this.showError('Create failed: ' + (err?.error ?? err))
     });

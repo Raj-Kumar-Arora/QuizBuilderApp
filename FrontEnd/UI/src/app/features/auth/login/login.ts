@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -14,6 +14,7 @@ export class LoginComponent {
   form!: FormGroup;
   loading = false;
   error : string  | null = null;
+  @Output() loggedIn = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -35,8 +36,9 @@ export class LoginComponent {
 
     this.authService.login(this.form.value).subscribe({
       next: (res: any) => {
-        //console.log('Login successful, navigating to QUIZ LIST');
-        window.location.reload();
+        console.log('Login successful, navigating to QUIZ LIST');
+        // window.location.reload();
+        this.loggedIn.emit(); // notify parent modal
         this.router.navigate(['/quiz/list']);
       },
       error: err => {
