@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormArray, Validators, FormGroup } fr
 import { Router, RouterLink } from '@angular/router';
 import { QuizService } from '../../../services/quiz.service';
 import { QuestionType } from '../../../models/quiz/question.model';
+import { Quiz } from '../../../models/quiz/quiz.model';
 
 @Component({
   selector: 'app-quiz-create',
@@ -124,7 +125,7 @@ export class CreateComponent {
       });
     }
   }
-  
+
   submit(): void {
     if (this.quizForm.invalid) {
       this.showError ('Invalid data entered!');
@@ -157,7 +158,11 @@ export class CreateComponent {
     };
 
    this.quizService.create(payload).subscribe({
-      next: () => this.router.navigate(['/quiz']),
+      next: (res : Quiz) => {
+       // console.log('Quiz Created Successfully : ', res.title);
+        alert ('Quiz Created Successfully. Quiz Title : '+ res.title);
+        this.router.navigate(['/quiz'])
+      },
       error: (err) => this.showError('Create failed: ' + (err?.error ?? err))
     });
   }

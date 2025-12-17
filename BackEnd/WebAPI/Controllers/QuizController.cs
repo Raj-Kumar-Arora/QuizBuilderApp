@@ -37,7 +37,10 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> CreateQuiz([FromBody] QuizCreateRequest quizRequest)
         {
             if (quizRequest == null)
-                return BadRequest("Quiz cannot be null.");
+                return BadRequest("Invalid data received in payload !");
+
+            if (!ModelState.IsValid)            
+                return ValidationProblem(ModelState);
 
             try
             {
@@ -132,6 +135,12 @@ namespace WebAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateQuiz(int id, [FromBody] QuizUpdateRequest updatedQuiz)
         {
+            if (updatedQuiz == null)
+                return BadRequest("Invalid data received in payload !");
+
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
             //Read USER ID from JWT token claims
             var userId = User.GetUserId();
 
@@ -213,6 +222,12 @@ namespace WebAPI.Controllers
         [HttpPost("{id}/import")]
         public async Task<IActionResult> ImportQuestions (int id, [FromQuery] OpenTriviaImportRequest importRequest)
         {
+            if (importRequest == null)
+                return BadRequest("Invalid data received in payload !");
+
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
             var quiz = await _quizDbContext.Quizzes
                 .Include(q => q.Questions)
                 .ThenInclude(q => q.Answers)
@@ -293,6 +308,12 @@ namespace WebAPI.Controllers
         [AllowAnonymous] // Public quiz
         public async Task<IActionResult> SubmitQuiz(int id, QuizTakeRequest request)
         {
+            if (request == null)
+                return BadRequest("Invalid data received in payload !");
+
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
             var quiz = await _quizDbContext.Quizzes
                     .Include(q => q.Questions)
                     .ThenInclude(q => q.Answers)
