@@ -77,7 +77,7 @@ This helped identify:
 - Required entities
 - API boundaries
 
-<img src="YOUR_REQUIREMENT_ANALYSIS_IMAGE_URL" width="800">
+<img src="./BackEnd/WebAPI/screenshots/requirement-analysis.png" width="800">
 
 ---
 
@@ -92,7 +92,7 @@ The entity design helped establish:
 - Database structure
 - API contract requirements
 
-<img src="YOUR_ENTITY_MAPPING_IMAGE_URL" width="800">
+<img src="./BackEnd/WebAPI/screenshots/entity-mapping.png" width="800">
 
 ---
 
@@ -108,7 +108,7 @@ The design covers:
 - API responsibilities
 - Data communication between frontend and backend
 
-<img src="YOUR_FLOW_DIAGRAM_IMAGE_URL" width="800">
+<img src="./BackEnd/WebAPI/screenshots/application-workflow-api-design.png" width="800">
 
 ---
 
