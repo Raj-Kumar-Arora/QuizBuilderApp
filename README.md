@@ -1,27 +1,221 @@
-Welcome to Quiz Builder
-Create, publish and share quizzes easily
+# Quiz Builder Application
 
-=========================================
+A full-stack quiz management platform built using **ASP.NET Core Web API** and **Angular**.
 
-====  REQUIREMENTs ANALYSIS ====
-     
-<img width="357" height="209" alt="image" src="https://github.com/user-attachments/assets/16dcd4cb-ee48-417a-a311-75fbf87314a3" />
-<img width="696" height="456" alt="image" src="https://github.com/user-attachments/assets/4f6327da-dc03-43dc-adab-354a5f3d7035" />
-<img width="695" height="463" alt="image" src="https://github.com/user-attachments/assets/667116a6-1811-462f-ba15-4c61fe04d408" />
+The application enables users to create, manage, publish and attempt quizzes through a scalable web-based solution.
 
-====  REQUIREMENTs MAPPING ====
+---
 
-<img width="700" height="165" alt="image" src="https://github.com/user-attachments/assets/873ea2ad-f0e3-451f-952e-beee15441308" />
-<img width="698" height="723" alt="image" src="https://github.com/user-attachments/assets/cad617f7-dac6-4ea5-8ba9-47df8b413e8c" />
-<img width="693" height="675" alt="image" src="https://github.com/user-attachments/assets/5ad50d14-9f25-4230-a4e8-6c59830a5fcd" />
+# Project Overview
 
-====  DATA ENTITIES DESIGN ====
+Quiz Builder is designed to demonstrate full-stack application development following modern software engineering practices.
 
-<img width="803" height="563" alt="image" src="https://github.com/user-attachments/assets/0e142fa3-24c1-4a75-aaf3-6e02c2743b2f" />
+The project covers:
 
-====  UI MOCKUPS ====
-     *TO DO*
-     
-====  FUTURE ENHANCEMENTS ====
-     
-<img width="704" height="410" alt="image" src="https://github.com/user-attachments/assets/26be598a-aa07-494c-a40e-2df6dc4258a5" />
+- Requirement analysis and decomposition
+- Domain-driven entity modelling
+- REST API design
+- Backend service development
+- Frontend implementation
+- Database design
+- Authentication and authorization
+
+---
+
+# Key Features
+
+- Create and manage quizzes
+- Add and organize questions
+- Publish quizzes for users
+- Attempt quizzes and submit responses
+- Calculate scores
+- Manage quiz lifecycle
+- RESTful API-based communication
+- Responsive Angular UI
+
+---
+
+# Solution Design Approach
+
+The application was designed following a structured engineering approach:
+
+```txt
+
+Business Requirements
+|
+↓
+Requirement Decomposition
+|
+↓
+Domain Modelling
+|
+↓
+Application Workflow Design
+|
+↓
+API & Backend Implementation
+|
+↓
+Frontend Development
+|
+↓
+Testing & Enhancement
+
+```
+
+---
+
+# Requirements Decomposition and Feature Identification
+
+Business requirements were analysed and broken down into functional capabilities before implementation.
+
+This helped identify:
+
+- Core application modules
+- User interactions
+- Business workflows
+- Required entities
+- API boundaries
+
+<img src="YOUR_REQUIREMENT_ANALYSIS_IMAGE_URL" width="800">
+
+---
+
+# Initial Domain Entity Mapping
+
+Initial domain modelling was performed to identify core business entities and their relationships.
+
+The entity design helped establish:
+
+- Domain boundaries
+- Data relationships
+- Database structure
+- API contract requirements
+
+<img src="YOUR_ENTITY_MAPPING_IMAGE_URL" width="800">
+
+---
+
+# Application Workflow and API Design
+
+Application workflows and API interactions were designed before implementation.
+
+The design covers:
+
+- User journeys
+- Functional flows
+- Service interactions
+- API responsibilities
+- Data communication between frontend and backend
+
+<img src="YOUR_FLOW_DIAGRAM_IMAGE_URL" width="800">
+
+---
+
+# Solution Architecture
+
+
+                Angular Frontend
+                       |
+                       |
+                HTTP REST APIs
+                       |
+                       |
+          ASP.NET Core Web API
+                       |
+    ---------------------------------
+    |               |               |
+
+```txt
+
+Quiz Service User Service Auth Service
+|
+|
+Entity Framework Core
+|
+|
+SQL Server Database
+
+```
+
+---
+
+# Technology Stack
+
+## Backend
+
+- ASP.NET Core Web API
+- C#
+- Entity Framework Core
+- LINQ
+- Dependency Injection
+- RESTful API Design
+
+## Frontend
+
+- Angular
+- TypeScript
+- HTML5
+- CSS
+- Angular Reactive Forms
+
+## Database
+
+- SQL Server
+- Entity Framework Core ORM
+
+## Security
+
+- JWT Authentication
+- Role-Based Authorization
+
+---
+
+# Application Screenshots
+
+(Add actual application screenshots here)
+
+Examples:
+
+- Login Page
+- Quiz Dashboard
+- Quiz Creation Page
+- Question Management
+- Quiz Attempt Screen
+- Results Page
+
+---
+
+# Development Practices
+
+The project follows:
+
+- Clean Code principles
+- SOLID principles
+- Separation of concerns
+- Layered architecture
+- Maintainable API design
+- Reusable frontend components
+
+---
+
+# Future Enhancements
+
+- AI-powered quiz generation using OpenAI
+- Automated question recommendations
+- Analytics dashboard
+- Quiz performance insights
+- Cloud deployment using Azure
+- CI/CD pipeline integration
+
+---
+
+# Learning Outcomes
+
+This project demonstrates practical experience with:
+
+- Full-stack application development
+- Domain modelling
+- API-first development
+- Software architecture principles
+- Modern .NET and Angular ecosystem
