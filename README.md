@@ -108,7 +108,7 @@ The design covers:
 - API responsibilities
 - Data communication between frontend and backend
 
-<img src=".BackEnd/WebAPI/screenshots/Application Workflow and API Design.png" width="800">
+<img src="./BackEnd/WebAPI/screenshots/Application Workflow and API Design.png" width="800">
 
 ---
 
