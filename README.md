@@ -77,7 +77,7 @@ This helped identify:
 - Required entities
 - API boundaries
 
-<img src="./BackEnd/WebAPI/screenshots/requirement-analysis.png" width="800">
+<img src="./BackEnd/WebAPI/screenshots/Requirement%20decomposition%20and%20feature%20identification.png" width="800">
 
 ---
 
@@ -92,7 +92,7 @@ The entity design helped establish:
 - Database structure
 - API contract requirements
 
-<img src="./BackEnd/WebAPI/screenshots/entity-mapping.png" width="800">
+<img src="./BackEnd/WebAPI/screenshots/Initial%20domain%20entity%20mapping.png" width="800">
 
 ---
 
