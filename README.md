@@ -120,7 +120,21 @@ Application workflows and API interactions were designed before implementation t
 
 The application follows a layered architecture separating presentation, business logic and data access responsibilities.
 
-<img src="./docs/images/design/solution-architecture.png" width="900">
+                    Angular Application
+                           │
+                    HTTP / REST APIs
+                           │
+                ASP.NET Core Web API
+                           │
+         ┌─────────────────┼─────────────────┐
+         │                 │                 │
+ Authentication     Quiz Services     User Services
+         │                 │                 │
+         └─────────────────┼─────────────────┘
+                           │
+                  Entity Framework Core
+                           │
+                     SQL Server Database
 
 QuizBuilderApp
 
