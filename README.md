@@ -1,37 +1,17 @@
-------------------------------------------------------------
-                    QUIZ BUILDER
-------------------------------------------------------------
+## 📑 Table of Contents
 
-Hero Banner
-
-Project Overview
-
-Live Demo (Optional)
-
-Technology Stack
-
-Key Features
-
-Engineering Design Process
-    • Requirement Decomposition
-    • Domain Entity Mapping
-    • Application Workflow & API Design
-
-Solution Architecture
-
-Project Structure
-
-Application Screenshots
-
-REST API Documentation
-
-Engineering Highlights
-
-Installation
-
-Future Enhancements
-
-Author
+- [📖 Project Overview](#-project-overview)
+- [🛠 Technology Stack](#-technology-stack)
+- [✨ Key Features](#-key-features)
+- [📋 Engineering Design Process](#-engineering-design-process)
+- [🏗 Solution Architecture](#-solution-architecture)
+- [📁 Project Structure](#-project-structure)
+- [📷 Application Screenshots](#-application-screenshots)
+- [🔌 REST API Documentation](#-rest-api-documentation)
+- [🚀 Engineering Highlights](#-engineering-highlights)
+- [⚙️ Getting Started](#️-getting-started)
+- [🔮 Future Enhancements](#-future-enhancements)
+- [👨‍💻 Author](#-author)
 
 
 # 🎯 Quiz Builder
