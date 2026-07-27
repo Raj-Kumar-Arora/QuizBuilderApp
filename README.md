@@ -120,6 +120,8 @@ Application workflows and API interactions were designed before implementation t
 
 The application follows a layered architecture separating presentation, business logic and data access responsibilities.
 
+```txt
+
                     Angular Application
                            │
                     HTTP / REST APIs
@@ -135,6 +137,8 @@ The application follows a layered architecture separating presentation, business
                   Entity Framework Core
                            │
                      SQL Server Database
+
+```
 
 QuizBuilderApp
 
