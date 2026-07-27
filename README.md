@@ -194,11 +194,15 @@ The backend exposes secure RESTful APIs documented using Swagger / OpenAPI.
 cd BackEnd/WebAPI
 dotnet restore
 dotnet run
+```
 
 ### Frontend
+
+```bash
 cd FrontEnd
 npm install
 ng serve
+```
 
 ## 🔮 Future Enhancements
 
