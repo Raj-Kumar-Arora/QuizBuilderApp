@@ -1,221 +1,227 @@
-# Quiz Builder Application
+------------------------------------------------------------
+                    QUIZ BUILDER
+------------------------------------------------------------
 
-A full-stack quiz management platform built using **ASP.NET Core Web API** and **Angular**.
+Hero Banner
 
-The application enables users to create, manage, publish and attempt quizzes through a scalable web-based solution.
+Project Overview
 
----
+Live Demo (Optional)
 
-# Project Overview
+Technology Stack
 
-Quiz Builder is designed to demonstrate full-stack application development following modern software engineering practices.
+Key Features
 
-The project covers:
+Engineering Design Process
+    • Requirement Decomposition
+    • Domain Entity Mapping
+    • Application Workflow & API Design
 
-- Requirement analysis and decomposition
-- Domain-driven entity modelling
-- REST API design
-- Backend service development
-- Frontend implementation
-- Database design
-- Authentication and authorization
+Solution Architecture
 
----
+Project Structure
 
-# Key Features
+Application Screenshots
 
-- Create and manage quizzes
-- Add and organize questions
-- Publish quizzes for users
-- Attempt quizzes and submit responses
-- Calculate scores
-- Manage quiz lifecycle
-- RESTful API-based communication
-- Responsive Angular UI
+REST API Documentation
 
----
+Engineering Highlights
 
-# Solution Design Approach
+Installation
 
-The application was designed following a structured engineering approach:
+Future Enhancements
 
-```txt
-
-Business Requirements
-|
-↓
-Requirement Decomposition
-|
-↓
-Domain Modelling
-|
-↓
-Application Workflow Design
-|
-↓
-API & Backend Implementation
-|
-↓
-Frontend Development
-|
-↓
-Testing & Enhancement
-
-```
-
----
-
-# Requirements Decomposition and Feature Identification
-
-Business requirements were analysed and broken down into functional capabilities before implementation.
-
-This helped identify:
-
-- Core application modules
-- User interactions
-- Business workflows
-- Required entities
-- API boundaries
-
-<img src="./BackEnd/WebAPI/screenshots/Requirement%20decomposition%20and%20feature%20identification.png" width="800">
-
----
-
-# Initial Domain Entity Mapping
-
-Initial domain modelling was performed to identify core business entities and their relationships.
-
-The entity design helped establish:
-
-- Domain boundaries
-- Data relationships
-- Database structure
-- API contract requirements
-
-<img src="./BackEnd/WebAPI/screenshots/Initial%20domain%20entity%20mapping.png" width="800">
-
----
-
-# Application Workflow and API Design
-
-Application workflows and API interactions were designed before implementation.
-
-The design covers:
-
-- User journeys
-- Functional flows
-- Service interactions
-- API responsibilities
-- Data communication between frontend and backend
-
-<img src="./BackEnd/WebAPI/screenshots/Application Workflow and API Design.png" width="800">
-
----
-
-# Solution Architecture
+Author
 
 
-                Angular Frontend
-                       |
-                       |
-                HTTP REST APIs
-                       |
-                       |
-          ASP.NET Core Web API
-                       |
-    ---------------------------------
-    |               |               |
+# 🎯 Quiz Builder
 
-```txt
+> A full-stack Quiz Management Platform built with **ASP.NET Core Web API**, **Angular**, and **SQL Server**, following modern software engineering and clean architecture principles.
 
-Quiz Service User Service Auth Service
-|
-|
-Entity Framework Core
-|
-|
-SQL Server Database
+![.NET](https://img.shields.io/badge/.NET-8-512BD4?style=for-the-badge&logo=.net)
+![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=for-the-badge&logo=angular)
+![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoftsqlserver)
+![JWT](https://img.shields.io/badge/JWT-Authentication-blue?style=for-the-badge)
+![REST API](https://img.shields.io/badge/REST-API-success?style=for-the-badge)
 
-```
+## 📖 Project Overview
 
----
+Quiz Builder is a full-stack web application that enables users to create, manage, publish, and attempt quizzes through an intuitive web interface.
 
-# Technology Stack
+The project demonstrates end-to-end software engineering practices, including requirement analysis, domain modelling, REST API design, secure authentication, frontend development, and SQL Server integration.
 
-## Backend
+The solution was developed following a structured engineering approach rather than jumping directly into implementation.
+
+## 🛠 Technology Stack
+
+### Backend
 
 - ASP.NET Core Web API
 - C#
 - Entity Framework Core
 - LINQ
 - Dependency Injection
-- RESTful API Design
 
-## Frontend
+### Frontend
 
 - Angular
 - TypeScript
 - HTML5
-- CSS
-- Angular Reactive Forms
+- CSS3
+- Bootstrap
 
-## Database
+### Database
 
 - SQL Server
-- Entity Framework Core ORM
 
-## Security
+### Security
 
 - JWT Authentication
+- Password Hashing
 - Role-Based Authorization
 
----
+### Tools
 
-# Application Screenshots
+- Swagger / OpenAPI
+- Visual Studio
+- Git
 
-(Add actual application screenshots here)
+## ✨ Key Features
 
-Examples:
-
-- Login Page
-- Quiz Dashboard
-- Quiz Creation Page
+- User Registration & Login
+- JWT Authentication
+- Quiz Creation & Management
 - Question Management
-- Quiz Attempt Screen
-- Results Page
+- Quiz Attempt Workflow
+- Automatic Score Calculation
+- Secure REST APIs
+- SQL Server Integration
+- Responsive Angular UI
+
+## 📋 Requirement Decomposition and Feature Identification
+
+Business requirements were analysed and decomposed into functional capabilities before implementation.
+
+<img src="./docs/images/design/Requirement decomposition and feature identification.png" width="900">
+
+## 🗂 Initial Domain Entity Mapping
+
+The application domain was modelled to identify core entities, relationships and database boundaries before implementation.
+
+<img src="./docs/images/design/Initial domain entity mapping.png" width="900">
+
+## 🔄 Application Workflow and API Design
+
+Application workflows and API interactions were designed before implementation to define user journeys, service responsibilities and communication patterns.
+
+<img src="./docs/images/design/Application Workflow and API Design.png" width="900">
+
+## 🏗 Solution Architecture
+
+The application follows a layered architecture separating presentation, business logic and data access responsibilities.
+
+<img src="./docs/images/design/solution-architecture.png" width="900">
+
+QuizBuilderApp
+
+Backend
+    Controllers
+    Services
+    Models
+    Repositories
+    Data
+    Authentication
+
+Frontend
+    Components
+    Services
+    Models
+
+## 📷 Application Screenshots
+
+### Authentication
+
+| Login | Register |
+|-------|----------|
+| <img src="./docs/images/ui/login.png" width="450"> | <img src="./docs/images/ui/register.png" width="450"> |
 
 ---
 
-# Development Practices
+### Quiz Management
 
-The project follows:
-
-- Clean Code principles
-- SOLID principles
-- Separation of concerns
-- Layered architecture
-- Maintainable API design
-- Reusable frontend components
+| Dashboard | Create Quiz |
+|------------|-------------|
+| <img src="./docs/images/ui/dashboard.png" width="450"> | <img src="./docs/images/ui/create-quiz.png" width="450"> |
 
 ---
 
-# Future Enhancements
+### Quiz Experience
+
+| Home | Attempt & Result Quiz |
+|------|--------------|
+| <img src="./docs/images/ui/home.png" width="450"> | <img src="./docs/images/ui/attempt-result.png" width="450"> |
+
+---
+
+## 🔌 REST API Documentation
+
+The backend exposes secure RESTful APIs documented using Swagger / OpenAPI.
+
+### Authentication
+
+<img src="./docs/images/api/swagger-authentication.png" width="900">
+
+---
+
+### Quiz APIs
+
+<img src="./docs/images/api/swagger-quiz-api.png" width="900">
+
+## 🚀 Engineering Highlights
+
+- Applied layered architecture to separate presentation, business logic and data access layers.
+- Designed the application workflow before implementation using structured engineering practices.
+- Modelled business entities and relationships before database implementation.
+- Developed secure REST APIs using ASP.NET Core Web API.
+- Implemented JWT-based authentication and role-based authorization.
+- Built reusable Angular components for maintainable frontend development.
+- Integrated SQL Server using Entity Framework Core.
+- Documented APIs using Swagger/OpenAPI.
+
+## ⚙️ Getting Started
+
+### Backend
+
+```bash
+cd BackEnd/WebAPI
+dotnet restore
+dotnet run
+
+### Frontend
+cd FrontEnd
+npm install
+ng serve
+
+## 🔮 Future Enhancements
 
 - AI-powered quiz generation using OpenAI
-- Automated question recommendations
-- Analytics dashboard
-- Quiz performance insights
-- Cloud deployment using Azure
-- CI/CD pipeline integration
+- Quiz analytics dashboard
+- Email notifications
+- Cloud deployment on Microsoft Azure
+- CI/CD using GitHub Actions
+- Docker containerization
 
----
+## 👨‍💻 Author
 
-# Learning Outcomes
+**Raj Kumar Arora**
 
-This project demonstrates practical experience with:
+Senior Full Stack Engineer | Associate Architect
 
-- Full-stack application development
-- Domain modelling
-- API-first development
-- Software architecture principles
-- Modern .NET and Angular ecosystem
+Specializing in:
+
+- ASP.NET Core
+- Angular
+- Azure
+- SQL Server
+- Microservices
+- System Design
