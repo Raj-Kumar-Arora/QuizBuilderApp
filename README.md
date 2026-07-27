@@ -102,19 +102,19 @@ The solution was developed following a structured engineering approach rather th
 
 Business requirements were analysed and decomposed into functional capabilities before implementation.
 
-<img src="./docs/images/design/requirement-decomposition.png" width="900">
+<img src="./docs/images/design/Requirement decomposition and feature identification.png" width="900">
 
 ## 🗂 Initial Domain Entity Mapping
 
 The application domain was modelled to identify core entities, relationships and database boundaries before implementation.
 
-<img src="./docs/images/design/domain-entity-mapping.png" width="900">
+<img src="./docs/images/design/Initial domain entity mapping.png" width="900">
 
 ## 🔄 Application Workflow and API Design
 
 Application workflows and API interactions were designed before implementation to define user journeys, service responsibilities and communication patterns.
 
-<img src="./docs/images/design/application-workflow-api-design.png" width="900">
+<img src="./docs/images/design/Application Workflow and API Design.png" width="900">
 
 ## 🏗 Solution Architecture
 
@@ -157,15 +157,11 @@ Frontend
 
 ### Quiz Experience
 
-| Home | Attempt Quiz |
+| Home | Attempt & Result Quiz |
 |------|--------------|
-| <img src="./docs/images/ui/home.png" width="450"> | <img src="./docs/images/ui/attempt.png" width="450"> |
+| <img src="./docs/images/ui/home.png" width="450"> | <img src="./docs/images/ui/attempt-result.png" width="450"> |
 
 ---
-
-### Results
-
-<img src="./docs/images/ui/results.png" width="900">
 
 ## 🔌 REST API Documentation
 
