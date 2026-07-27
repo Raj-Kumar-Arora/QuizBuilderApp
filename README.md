@@ -11,7 +11,7 @@
 - [🚀 Engineering Highlights](#-engineering-highlights)
 - [⚙️ Getting Started](#️-getting-started)
 - [🔮 Future Enhancements](#-future-enhancements)
-- [👨‍💻 Author](#-author)
+- [👨‍💻 Author](#author)
 
 
 # 🎯 Quiz Builder
